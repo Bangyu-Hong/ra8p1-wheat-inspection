@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "model_id": "qat-yolov8n-wheat-full320-six-head-ruhmi-candidate-v1",
+  "class_names": [
+    "wheat_head"
+  ],
+  "immutable_source": {
+    "artifact_role": "immutable decoded-output QAT FP32 source",
+    "bytes": 12112301,
+    "relative_path": "models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_combined_fp32.onnx",
+    "sha256": "a59903d06fb9bd8f7e1a69b755edd00bcca7018a0736f91a54fdb232dd0971d2"
+  },
+  "source_model": {
+    "artifact_role": "guarded six-final-Conv FP32 RUHMI candidate",
+    "bytes": 12065297,
+    "generated_path": "output/ruhmi_yolov8n_320_qat_six_head/derived/yolov8n_wheat_full320_qat_six_head_outputs.onnx",
+    "sha256": "8cdfaa986fb5fe3e841d3c1182ca04075e3fa15a6462be49727b8c83f8ad7e0b"
+  },
+  "input": {
+    "name": "images",
+    "dtype": "float32",
+    "shape": [
+      1,
+      3,
+      320,
+      320
+    ],
+    "layout": "NCHW",
+    "color_order": "RGB",
+    "normalization": "uint8 / 255.0",
+    "dynamic_axes": false
+  },
+  "outputs": [
+    {
+      "name": "regression_s8",
+      "dtype": "float32",
+      "shape": [1, 64, 40, 40],
+      "producer": "/model.22/cv2.0/cv2.0.2/Conv",
+      "embedded_nms": false
+    },
+    {
+      "name": "class_s8",
+      "dtype": "float32",
+      "shape": [1, 1, 40, 40],
+      "producer": "/model.22/cv3.0/cv3.0.2/Conv",
+      "embedded_nms": false
+    },
+    {
+      "name": "regression_s16",
+      "dtype": "float32",
+      "shape": [1, 64, 20, 20],
+      "producer": "/model.22/cv2.1/cv2.1.2/Conv",
+      "embedded_nms": false
+    },
+    {
+      "name": "class_s16",
+      "dtype": "float32",
+      "shape": [1, 1, 20, 20],
+      "producer": "/model.22/cv3.1/cv3.1.2/Conv",
+      "embedded_nms": false
+    },
+    {
+      "name": "regression_s32",
+      "dtype": "float32",
+      "shape": [1, 64, 10, 10],
+      "producer": "/model.22/cv2.2/cv2.2.2/Conv",
+      "embedded_nms": false
+    },
+    {
+      "name": "class_s32",
+      "dtype": "float32",
+      "shape": [1, 1, 10, 10],
+      "producer": "/model.22/cv3.2/cv3.2.2/Conv",
+      "embedded_nms": false
+    }
+  ],
+  "onnx": {
+    "ir_version": 7,
+    "opsets": {
+      "ai.onnx": 13
+    },
+    "producer_name": "pytorch",
+    "producer_version": "2.6.0",
+    "node_count": 215,
+    "initializer_count": 126,
+    "operator_counts": {
+      "Add": 6,
+      "Concat": 13,
+      "Constant": 6,
+      "Conv": 63,
+      "MaxPool": 3,
+      "Mul": 57,
+      "Resize": 2,
+      "Sigmoid": 57,
+      "Split": 8
+    },
+    "checker_passed": true,
+    "strict_shape_inference_passed": true,
+    "dynamic_interface_axes": false,
+    "fp16_present": false,
+    "embedded_nms": false,
+    "all_output_producers_are_direct_conv": true,
+    "terminal_output_split_present": false,
+    "terminal_output_identity_present": false,
+    "internal_backbone_split_count": 8
+  },
+  "derivation": {
+    "transform_id": "expose-yolov8-final-conv-heads-v1",
+    "network_calculations_changed": false,
+    "retained_node_count": 215,
+    "removed_node_count": 46,
+    "retained_initializer_count": 126,
+    "removed_initializer_names": [
+      "model.22.dfl.conv.weight"
+    ],
+    "deterministic_transform_rerun_equal": true,
+    "output_order": [
+      "regression_s8",
+      "class_s8",
+      "regression_s16",
+      "class_s16",
+      "regression_s32",
+      "class_s32"
+    ],
+    "final_conv_artifacts": [
+      {
+        "output": "regression_s8",
+        "weight_sha256": "8c54f687a0dd1dda5067903c440867aa74a1ee66955d2d9dbf1bae9e77442985",
+        "bias_sha256": "7695b065002cee28f4fc554e64621dbafb764c18fead99189151c92ad748f321"
+      },
+      {
+        "output": "class_s8",
+        "weight_sha256": "fc4bca4eaa44c90fa95d8c1892a03a4c9f6d547c3e5da24556ffd7882d03758b",
+        "bias_sha256": "c7a2be4c93921ec2138341ae3ad086424cbae305fe45d34f9fc8276204038aa9"
+      },
+      {
+        "output": "regression_s16",
+        "weight_sha256": "cded6d3f0c80500a854dab44d48649f81f33ae47510d0aae8cc0587538ee6e8f",
+        "bias_sha256": "5138633dca935fefe5f21ac7cdb67d5547043e78e4bc3ee2fda8c0ba759b7622"
+      },
+      {
+        "output": "class_s16",
+        "weight_sha256": "34838d58a80148815659294cd41b8ddea7f433ff205bf19ffec33041eaad30c8",
+        "bias_sha256": "a93e11e243cd0afd6f06b64ed64b18b91e392ca2e9c47b04c8fdbc6df9b3e73f"
+      },
+      {
+        "output": "regression_s32",
+        "weight_sha256": "c1682ba91bc5e69ac6eb817f6390a6d638d865c69350ad7fad4b90050ff8c443",
+        "bias_sha256": "45f7750f6175815ef6275c4fb90c1654453a1553def728760e0e68096a72bdad"
+      },
+      {
+        "output": "class_s32",
+        "weight_sha256": "3f80824a09c05bb20eb9f702bd2a7819d78389612b748464d64c0e18a2bbdbd1",
+        "bias_sha256": "075713c97f01082d8c25296bad25cfdd25e1c68ded7a1f9a68ce12aa92478d2e"
+      }
+    ]
+  },
+  "postprocessing": {
+    "owner": "bounded Cortex-M85 scalar reference, then Helium only after scalar parity",
+    "cpu_neural_network_runtime": false,
+    "assembly": "flatten NCHW row-major per scale and assemble s8, s16, s32 without a separate MCU FP32 concatenation buffer",
+    "dfl_projection_sha256": "59caad87de2582a742029e5c0a6bc3540ca50ff92de2a65aa300c0af3af126db",
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "candidate_capacity": 300,
+    "result_capacity": 64
+  },
+  "fp32_qualification": {
+    "status": "passed",
+    "evidence_path": "output/ruhmi_yolov8n_320_qat_six_head/fp32_qualification.json",
+    "evidence_bytes": 33198,
+    "evidence_sha256": "1ac2d10da093e778687a0a3e3d8f9aa2666b4f6a880979d36012c49a55cd7059",
+    "tolerance": {
+      "absolute": 0.000125,
+      "relative": 0.0
+    },
+    "deterministic_report_rerun_equal": true,
+    "cases": [
+      {
+        "case_id": "fixed_golden",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 245,
+        "nms_count": 32
+      },
+      {
+        "case_id": "synthetic_zero",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 0,
+        "nms_count": 0
+      },
+      {
+        "case_id": "synthetic_u8_ramp",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 3,
+        "nms_count": 2
+      }
+    ]
+  },
+  "calibration": {
+    "status": "frozen and unchanged",
+    "tensor_count": 35,
+    "directory": "output/ruhmi_yolov8n_320/calibration_fp32",
+    "index_file_sha256": "0125baea2f341fd50f0c8fce6ae4c783958a6a5fead6d7dd2e7a1f428cd03169",
+    "index_sha256": "3813056aa11a51d851edc7d899509dacf40355f40011d20ce0713f824e333769"
+  },
+  "quantizer_constructor_preflight": {
+    "status": "passed",
+    "tool": "workspace/camera/tools/run_ruhmi_quantizer_preflight.py",
+    "log_path": "output/ruhmi_yolov8n_320_qat_six_head/quantizer_constructor_preflight.log",
+    "log_bytes": 10272,
+    "log_sha256": "67f956e7af9179109b0d11399a6eba3a6de8ca971434fd49d43356da6a3f89b0",
+    "model_mir_sha256": "0791da9849da397bdf5ecd835b0200b37025f6d6d014df0be42fbb663d81a3a6",
+    "optimized_onnx_sha256": "e422adf5ba332b3925bb2023a1b513cf9b68ef25d48ed1708a5abf8136a4354d",
+    "calibration_calls": 0,
+    "quantization_calls": 0,
+    "vela_calls": 0,
+    "codegen_calls": 0
+  },
+  "ruhmi_gate": {
+    "toolchain": {
+      "renesas_release": "Release-2026-06-19",
+      "framework_commit": "6c5aad901a1a41e28f6e306bfc35c44659e89502",
+      "mera": "2.6.0+pkg.4815",
+      "vela": "4.2.0"
+    },
+    "maximum_permitted_compile_invocations": 1,
+    "completed_compile_invocations": 1,
+    "command": "python mcu_compile.py <six-head.onnx> <output> --npu --quantize --calib-data output/ruhmi_yolov8n_320/calibration_fp32 --calib-num 35 --memory-threshold 64 --ref-data",
+    "command_exit_code": 1,
+    "core_compile_status": "quantization, saved model, Vela allocation, and C generation completed",
+    "exit_cause": "Windows GBK console could not encode the final U+2705 check mark",
+    "compiler_log_path": "output/ruhmi_yolov8n_320_qat_six_head/compiler_six_head_outputs.log",
+    "compiler_log_bytes": 144072,
+    "compiler_log_sha256": "ddcb9bae98554ab29d502154ef1c231c8ecc25a1fbb904f4022ec2e6d119528a",
+    "saved_model": {
+      "generated_path": "output/ruhmi_yolov8n_320_qat_six_head/compiler_six_head_outputs/yolov8n_wheat_full320_qat_six_head_outputs_NPU_quantized/quantization/model.mera",
+      "bytes": 3636616,
+      "sha256": "301f97207813c03e12adeacf5c6a285270ee76458a5347c44d12d797764322cd"
+    },
+    "io_desc_path": "output/ruhmi_yolov8n_320_qat_six_head/compiler_six_head_outputs/yolov8n_wheat_full320_qat_six_head_outputs_NPU_quantized/deploy/build/MCU/io_desc.json",
+    "io_desc_bytes": 1027,
+    "io_desc_sha256": "3a85751e13a428013d2a9e671c2f64b694a1d87d81409b64a8426f01bd410b7a",
+    "vela_regions": [
+      {
+        "region": 1,
+        "npu_operators": 156,
+        "cpu_operators": 0,
+        "sram_kib": 800.0,
+        "on_chip_flash_kib": 1171.42
+      },
+      {
+        "region": 3,
+        "npu_operators": 27,
+        "cpu_operators": 0,
+        "sram_kib": 300.0,
+        "on_chip_flash_kib": 139.59
+      },
+      {
+        "region": 5,
+        "npu_operators": 135,
+        "cpu_operators": 0,
+        "sram_kib": 675.0,
+        "on_chip_flash_kib": 1429.73
+      }
+    ],
+    "cpu_c_codegen_regions": [
+      {
+        "region": 0,
+        "operations": ["AffineQuantizeFloatToInt8", "Transpose NCHW to NHWC"],
+        "source_sha256": "75a94fd2159b99e649d1a7eb0cc021d389ebaa9190c550e3286aef4f063c48e7"
+      },
+      {
+        "region": 2,
+        "operations": ["UpsamplingNearestNeighbor 10x10 to 20x20"],
+        "source_sha256": "f28a64f9060fbc971c9cdb7501e995356f13813a301c65cde8dd31ef6d31fa4a"
+      },
+      {
+        "region": 4,
+        "operations": ["UpsamplingNearestNeighbor 20x20 to 40x40"],
+        "source_sha256": "3c5d7be61ae2323b8fe018c56740b0bc5fd4a0519d9b7889d90e0bbc7ca5885c"
+      },
+      {
+        "region": 6,
+        "operations": ["AffineDequantizeInt8ToFloat for all six outputs"],
+        "source_sha256": "a722aa433d4128f5c487d8a64d1299bca4d239b4c1da73b07fc42e02c19354b7"
+      }
+    ],
+    "no_cpu_neural_network_runtime_requirement_met": false,
+    "cpu_runtime_rejection_reason": "two backbone Resize operations execute as CPU UpsamplingNearestNeighbor C kernels"
+  },
+  "saved_model_fixed_golden": {
+    "status": "rejected",
+    "tool": "workspace/camera/tools/run_ruhmi_saved_model_gate.py",
+    "loader": "ModelLoader.from_quantized_mera",
+    "target": "fresh Target.MERAInterpreter",
+    "report_path": "output/ruhmi_yolov8n_320_qat_six_head/interpreter_saved_mera_golden_verified/saved_model_gate.json",
+    "report_bytes": 13129,
+    "report_sha256": "195509ec1b47b84f9962b806215d7c89dd652d19a9e15d76c7e4d251bdabd049",
+    "all_six_outputs_finite": true,
+    "all_six_outputs_noncollapsed": true,
+    "fp32_score_max": 0.7145408987998962,
+    "saved_score_max": 0.35302236676216125,
+    "fp32_candidate_count": 245,
+    "saved_candidate_count": 8,
+    "candidate_retention_ratio": 0.0326530612244898,
+    "candidate_index_intersection_count": 4,
+    "fp32_nms_count": 32,
+    "saved_nms_count": 2,
+    "nms_retention_ratio": 0.0625,
+    "nms_index_intersection_count": 0,
+    "saved_valid_geometry": 8,
+    "saved_geometry_rejected": 0,
+    "saved_nonfinite_rejected": 0,
+    "accepted_for_firmware_integration": false,
+    "rejection_reason": "unchanged-threshold candidate and NMS recall collapsed despite finite noncollapsed raw outputs"
+  },
+  "deployment_gate": {
+    "status": "rejected-after-single-pinned-ruhmi-gate",
+    "fp32_status": "qualified",
+    "quantizer_constructor_status": "passed",
+    "saved_model_status": "rejected",
+    "allocation_status": "rejected because CPU backbone Resize fallbacks violate the no-CPU-network-runtime contract",
+    "firmware_backend_status": "replacement-model-pending",
+    "board_deployment_status": "not attempted",
+    "prohibited_recovery_actions": [
+      "threshold reduction",
+      "another output-boundary variant",
+      "another compiler invocation for this candidate",
+      "CPU neural-network runtime acceptance",
+      "firmware integration",
+      "board flashing"
+    ],
+    "recommendation": "return to model training/export design; improve QAT coverage of the six final heads and choose an NPU-compatible backbone upsampling path before requesting a separately reviewed candidate gate"
+  }
+}

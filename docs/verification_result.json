@@ -1,0 +1,12 @@
+{
+  "original_files_verified": 3738,
+  "source_original_file_count": 33,
+  "organized_files_verified": 503,
+  "local_only_files_skipped": [],
+  "local_archives_available": true,
+  "archived_copies_verified": 632,
+  "ppt_images_verified": 9,
+  "authored_local_links_checked": 98,
+  "failures": [],
+  "scope": "文件完整性与文档链接；不含编译、模型精度和硬件验收"
+}

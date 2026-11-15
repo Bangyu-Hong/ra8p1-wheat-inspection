@@ -1,0 +1,39 @@
+# 原始材料在本地完整保留，避免重复材料、缓存和本地配置进入仓库。
+/archive/
+# 原固件说明标注镜像可能包含本地 Wi-Fi 字符串，仅保留说明和校验表供公开展示。
+/materials/ra8p1/firmware/*
+!/materials/ra8p1/firmware/README.md
+!/materials/ra8p1/firmware/SHA256SUMS.txt
+
+# 构建、安装与缓存目录；不忽略模型 bin、HMI 字体或正式固件。
+**/build/
+**/install/
+**/log/
+**/Log/
+**/Debug/
+**/Release/
+**/Objects/
+**/Listings/
+**/.build/
+**/__pycache__/
+**/*.egg-info/
+**/.pytest_cache/
+**/.spec-workflow/
+*.pyc
+*.o
+*.d
+*.crf
+*.axf
+*.uvoptx
+*.uvguix.*
+*.log
+*.stackdump
+
+# 设备与联网私有配置。
+.env
+.env.*
+!.env.example
+**/esp_at_credentials.h
+**/JLinkLog*
+Thumbs.db
+desktop.ini

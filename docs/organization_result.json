@@ -1,0 +1,15 @@
+{
+  "scope": "仅 RA8P1 小麦麦穗智能计数与环境监测项目",
+  "organized_file_count": 503,
+  "source_original_file_count": 33,
+  "preserved_original_file_count": 3738,
+  "excluded_organized_file_count": 632,
+  "reference_repository": "https://github.com/Bangyu-Hong/rockchip",
+  "personal_contribution": [
+    "模型优化",
+    "底盘搭建"
+  ],
+  "presentation_image_count": 9,
+  "technical_report_image_count": 0,
+  "serial_hmi_in_project_presentation": true
+}

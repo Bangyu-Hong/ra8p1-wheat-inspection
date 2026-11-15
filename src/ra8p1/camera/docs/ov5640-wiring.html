@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>RA8P1 扩展板与 ATK-MC5640 接线图</title>
+  <style>
+    :root {
+      --bg: #eef2f3;
+      --surface: #ffffff;
+      --surface-2: #f6f8f9;
+      --ink: #15262d;
+      --muted: #5f7077;
+      --border: #ccd6da;
+      --board: #154f43;
+      --board-2: #1d6253;
+      --board-ink: #f5fffb;
+      --sccb: #008b83;
+      --timing: #2878b8;
+      --data: #6957a8;
+      --control: #c05a28;
+      --power: #b52f3a;
+      --nc: #7a8084;
+      --focus: #0c6cbd;
+      --shadow: 0 12px 30px rgba(15, 38, 46, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12191c;
+        --surface: #1a2428;
+        --surface-2: #222e33;
+        --ink: #edf5f6;
+        --muted: #aab9be;
+        --border: #3b4b51;
+        --board: #1a5b4e;
+        --board-2: #23705f;
+        --board-ink: #f4fffb;
+        --sccb: #39bdb5;
+        --timing: #62a9df;
+        --data: #9b8fdb;
+        --control: #df8657;
+        --power: #ee6b75;
+        --nc: #aeb5b8;
+        --focus: #70b8ef;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page-header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .header-inner,
+    main,
+    .footer-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 82px;
+      padding: 14px 0;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .title-block p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .print-button {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .print-button:hover {
+      border-color: var(--focus);
+    }
+
+    main {
+      padding: 22px 0 36px;
+    }
+
+    .safety-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--border);
+    }
+
+    .safety-item {
+      min-width: 0;
+      padding: 14px 16px;
+      background: var(--surface);
+    }
+
+    .safety-item strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .safety-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .safety-item.danger strong {
+      color: var(--power);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 0 0 12px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .filter-button {
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .filter-button[aria-pressed="true"] {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .toolbar-note {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .diagram-shell {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .board-headings {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(150px, 0.62fr) minmax(250px, 1.15fr);
+      gap: 16px;
+      align-items: stretch;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .board-heading {
+      min-width: 0;
+      padding: 13px 15px;
+      border-radius: 6px;
+      background: var(--board);
+      color: var(--board-ink);
+    }
+
+    .board-heading.right {
+      background: var(--board-2);
+    }
+
+    .board-heading strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .board-heading span {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      opacity: 0.86;
+    }
+
+    .orientation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    .pin-one {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--power);
+      vertical-align: -1px;
+    }
+
+    .power-map {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(150px, 0.62fr) minmax(250px, 1.15fr);
+      gap: 16px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--power) 7%, var(--surface));
+    }
+
+    .power-pins,
+    .power-targets {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .power-wire {
+      position: relative;
+      height: 30px;
+    }
+
+    .power-wire::before,
+    .power-wire::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      height: 3px;
+      background: var(--power);
+      transform: translateY(-50%);
+    }
+
+    .power-wire::before {
+      left: 0;
+      width: 46%;
+    }
+
+    .power-wire::after {
+      right: 0;
+      width: 46%;
+    }
+
+    .power-wire span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      padding: 2px 5px;
+      background: var(--surface);
+      color: var(--power);
+      font-size: 11px;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .wire-list {
+      padding: 8px 16px 14px;
+    }
+
+    .wire-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(150px, 0.62fr) minmax(250px, 1.15fr);
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+      min-height: 54px;
+      padding: 5px 0;
+      border: 0;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+      transition: opacity 150ms ease, background-color 150ms ease;
+    }
+
+    .wire-row:last-child {
+      border-bottom: 0;
+    }
+
+    .wire-row:hover,
+    .wire-row.is-selected {
+      background: var(--surface-2);
+    }
+
+    .wire-row:focus-visible,
+    .filter-button:focus-visible,
+    .print-button:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--focus) 45%, transparent);
+      outline-offset: 2px;
+    }
+
+    .wire-row.is-muted {
+      opacity: 0.22;
+    }
+
+    .pin-node {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      align-items: center;
+      min-width: 0;
+      min-height: 42px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .pin-number {
+      display: grid;
+      place-items: center;
+      align-self: stretch;
+      min-width: 0;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pin-copy {
+      min-width: 0;
+      padding: 7px 10px;
+    }
+
+    .pin-copy strong {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .pin-copy small {
+      display: block;
+      overflow-wrap: anywhere;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .trace {
+      --trace-color: var(--nc);
+      position: relative;
+      height: 32px;
+    }
+
+    .trace::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--trace-color);
+      transform: translateY(-50%);
+    }
+
+    .trace::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--trace-color);
+      transform: translate(1px, -50%);
+      box-shadow: calc(-100% + 8px) 0 0 var(--trace-color);
+    }
+
+    .trace span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      max-width: 94%;
+      padding: 2px 6px;
+      overflow: hidden;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      text-overflow: ellipsis;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+    }
+
+    .group-sccb .trace {
+      --trace-color: var(--sccb);
+    }
+
+    .group-timing .trace {
+      --trace-color: var(--timing);
+    }
+
+    .group-data .trace {
+      --trace-color: var(--data);
+    }
+
+    .group-control .trace {
+      --trace-color: var(--control);
+    }
+
+    .group-nc .trace::before {
+      height: 0;
+      border-top: 3px dashed var(--nc);
+      background: transparent;
+    }
+
+    .group-nc .trace::after {
+      display: none;
+    }
+
+    .detail-bar {
+      min-height: 54px;
+      padding: 13px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .detail-bar strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-swatch {
+      width: 22px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--nc);
+    }
+
+    .legend-swatch.sccb {
+      background: var(--sccb);
+    }
+
+    .legend-swatch.timing {
+      background: var(--timing);
+    }
+
+    .legend-swatch.data {
+      background: var(--data);
+    }
+
+    .legend-swatch.control {
+      background: var(--control);
+    }
+
+    .legend-swatch.power {
+      background: var(--power);
+    }
+
+    .notes-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    .notes-section h2 {
+      margin: 0 0 10px;
+      font-size: 19px;
+      font-weight: 500;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 23px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 0;
+      width: 11px;
+      height: 11px;
+      border: 2px solid var(--board-2);
+      border-radius: 2px;
+    }
+
+    .warning-box {
+      padding: 15px 16px;
+      border-left: 4px solid var(--control);
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .warning-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .footer-inner {
+      padding: 16px 0 22px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        align-items: flex-start;
+      }
+
+      .title-block h1 {
+        font-size: 20px;
+      }
+
+      .safety-band {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .toolbar-note {
+        text-align: left;
+      }
+
+      .board-headings {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .orientation {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        padding: 2px 0;
+      }
+
+      .power-map,
+      .wire-row {
+        grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+        gap: 7px;
+      }
+
+      .pin-node {
+        grid-template-columns: 44px minmax(0, 1fr);
+      }
+
+      .pin-copy {
+        padding: 7px;
+      }
+
+      .pin-copy strong {
+        font-size: 12px;
+      }
+
+      .pin-copy small {
+        font-size: 11px;
+      }
+
+      .trace span,
+      .power-wire span {
+        display: none;
+      }
+
+      .notes-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .header-inner,
+      main,
+      .footer-inner {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .header-inner {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .print-button {
+        width: 100%;
+      }
+
+      .board-headings,
+      .power-map,
+      .wire-list {
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .board-heading {
+        padding: 10px;
+      }
+
+      .board-heading strong {
+        font-size: 14px;
+      }
+
+      .board-heading span {
+        font-size: 11px;
+      }
+
+      .power-map,
+      .wire-row {
+        grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+        gap: 4px;
+      }
+
+      .power-pins,
+      .power-targets {
+        grid-template-columns: 1fr;
+      }
+
+      .power-wire {
+        height: 92px;
+      }
+
+      .power-wire::before,
+      .power-wire::after {
+        left: 0;
+        right: auto;
+        width: 100%;
+      }
+
+      .power-wire::before {
+        top: 25%;
+      }
+
+      .power-wire::after {
+        top: 75%;
+      }
+
+      .pin-node {
+        grid-template-columns: 36px minmax(0, 1fr);
+      }
+
+      .pin-number {
+        font-size: 10px;
+      }
+    }
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-2: #f4f6f7;
+        --ink: #101b20;
+        --muted: #4d5b61;
+        --border: #aeb9bd;
+      }
+
+      body {
+        background: #ffffff;
+      }
+
+      .header-inner,
+      main,
+      .footer-inner {
+        width: 100%;
+      }
+
+      .print-button,
+      .toolbar {
+        display: none;
+      }
+
+      .diagram-shell {
+        box-shadow: none;
+      }
+
+      .wire-row.is-muted {
+        opacity: 1;
+      }
+
+      .notes-section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <div class="header-inner">
+      <div class="title-block">
+        <h1>RA8P1 扩展板 P8 ↔ ATK-MC5640 接线图</h1>
+        <p>适用于 CPKHMI-RA8P1 扩展板与正点原子 ATK-MC5640 V1.2</p>
+      </div>
+      <button class="print-button" type="button" id="printButton">打印接线图</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="safety-band" aria-label="接线前安全要求">
+      <div class="safety-item danger">
+        <strong>只允许 3.3 V</strong>
+        <span>ATK pin 2 接扩展板 P9 的 3V3；严禁接入 5 V。</span>
+      </div>
+      <div class="safety-item">
+        <strong>pin 1 / pin 2 不在 P8</strong>
+        <span>ATK pin 1 接 P10 的 GND，pin 2 接 P9 的 3V3，必须单独供电。</span>
+      </div>
+      <div class="safety-item">
+        <strong>两端最后一脚均悬空</strong>
+        <span>ATK pin 18 与 P8-16/P109 不接；模块自带 24 MHz 晶振。</span>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="filter-group" role="group" aria-label="接线分组">
+        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">全部接线</button>
+        <button class="filter-button" type="button" data-filter="bringup" aria-pressed="false">当前 SCCB 阶段</button>
+        <button class="filter-button" type="button" data-filter="video" aria-pressed="false">CEU 图像总线</button>
+        <button class="filter-button" type="button" data-filter="safe" aria-pressed="false">电源与悬空</button>
+      </div>
+      <div class="toolbar-note">单击任意一根线可查看电气说明</div>
+    </div>
+
+    <section class="diagram-shell" aria-label="OV5640 接线主图">
+      <div class="board-headings">
+        <div class="board-heading">
+          <strong>ATK-MC5640</strong>
+          <span><span class="pin-one"></span>红点方向为模块 pin 1</span>
+        </div>
+        <div class="orientation">
+          模块 pin 3–17<br>对应 P8-1–15
+        </div>
+        <div class="board-heading right">
+          <strong>CPKHMI-RA8P1 扩展板</strong>
+          <span>P8 为 2×8；P9=3V3，P10=GND</span>
+        </div>
+      </div>
+
+      <div class="power-map" data-group="safe">
+        <div class="power-pins">
+          <div class="pin-node">
+            <span class="pin-number">ATK 1</span>
+            <span class="pin-copy"><strong>GND</strong><small>电源地</small></span>
+          </div>
+          <div class="pin-node">
+            <span class="pin-number">ATK 2</span>
+            <span class="pin-copy"><strong>3.3V</strong><small>模块电源</small></span>
+          </div>
+        </div>
+        <div class="power-wire" aria-hidden="true"><span>单独接线</span></div>
+        <div class="power-targets">
+          <div class="pin-node">
+            <span class="pin-number">P10</span>
+            <span class="pin-copy"><strong>任一 GND</strong><small>必须共地</small></span>
+          </div>
+          <div class="pin-node">
+            <span class="pin-number">P9</span>
+            <span class="pin-copy"><strong>任一 3V3</strong><small>禁止 5 V</small></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wire-list" id="wireList">
+        <button class="wire-row group-sccb" type="button" data-group="sccb" data-stage="bringup" data-detail="SCCB 时钟。IIC0 标准模式 100 kHz，建议短线；若上升沿过慢，再测量后增加约 4.7 kΩ 上拉到 3.3 V。">
+          <span class="pin-node"><span class="pin-number">ATK 3</span><span class="pin-copy"><strong>OV_SCL</strong><small>SCCB 时钟</small></span></span>
+          <span class="trace"><span>SCCB</span></span>
+          <span class="pin-node"><span class="pin-number">P8-1</span><span class="pin-copy"><strong>P410</strong><small>SCL0_A / IIC0</small></span></span>
+        </button>
+
+        <button class="wire-row group-timing" type="button" data-group="timing" data-stage="video" data-detail="帧同步输入，对应 CEU 的 VIO_VD。进入图像采集阶段后启用；当前芯片 ID 阶段暂不配置 CEU。">
+          <span class="pin-node"><span class="pin-number">ATK 4</span><span class="pin-copy"><strong>OV_VSYNC</strong><small>帧同步</small></span></span>
+          <span class="trace"><span>时序</span></span>
+          <span class="pin-node"><span class="pin-number">P8-2</span><span class="pin-copy"><strong>P708</strong><small>VIO_VD / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-sccb" type="button" data-group="sccb" data-stage="bringup" data-detail="SCCB 数据。OV5640 使用 7 位地址 0x3C；SDA 与 SCL 不可接反。">
+          <span class="pin-node"><span class="pin-number">ATK 5</span><span class="pin-copy"><strong>OV_SDA</strong><small>SCCB 数据</small></span></span>
+          <span class="trace"><span>SCCB</span></span>
+          <span class="pin-node"><span class="pin-number">P8-3</span><span class="pin-copy"><strong>P409</strong><small>SDA0_A / IIC0</small></span></span>
+        </button>
+
+        <button class="wire-row group-timing" type="button" data-group="timing" data-stage="video" data-detail="行有效输入，对应 CEU 的 VIO_HD。与 PCLK、VSYNC 和 D0–D7 一起尽量短线布置。">
+          <span class="pin-node"><span class="pin-number">ATK 6</span><span class="pin-copy"><strong>OV_HREF</strong><small>行有效</small></span></span>
+          <span class="trace"><span>时序</span></span>
+          <span class="pin-node"><span class="pin-number">P8-4</span><span class="pin-copy"><strong>P415</strong><small>VIO_HD / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 0。D0–D7 必须按位对应，不能按排针顺序自行重排。">
+          <span class="pin-node"><span class="pin-number">ATK 7</span><span class="pin-copy"><strong>OV_D0</strong><small>像素数据 bit 0</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-5</span><span class="pin-copy"><strong>P400</strong><small>VIO_D0 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-control" type="button" data-group="control" data-stage="bringup" data-detail="硬件复位，低电平有效。当前启动时序：RESET=0、PWDN=1 保持 20 ms；PWDN 拉低 5 ms；RESET 拉高后等待 20 ms。">
+          <span class="pin-node"><span class="pin-number">ATK 8</span><span class="pin-copy"><strong>OV_RESET</strong><small>低有效</small></span></span>
+          <span class="trace"><span>控制</span></span>
+          <span class="pin-node"><span class="pin-number">P8-6</span><span class="pin-copy"><strong>P709</strong><small>GPIO 输出</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 2。注意模块排针顺序中 D2 位于 D1 之前，以信号名为准。">
+          <span class="pin-node"><span class="pin-number">ATK 9</span><span class="pin-copy"><strong>OV_D2</strong><small>像素数据 bit 2</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-7</span><span class="pin-copy"><strong>P405</strong><small>VIO_D2 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 1。该线对应 P8-8/P401，不要与相邻的 D2 对调。">
+          <span class="pin-node"><span class="pin-number">ATK 10</span><span class="pin-copy"><strong>OV_D1</strong><small>像素数据 bit 1</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-8</span><span class="pin-copy"><strong>P401</strong><small>VIO_D1 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 4。">
+          <span class="pin-node"><span class="pin-number">ATK 11</span><span class="pin-copy"><strong>OV_D4</strong><small>像素数据 bit 4</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-9</span><span class="pin-copy"><strong>P700</strong><small>VIO_D4 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 3。注意模块排针顺序中 D4 位于 D3 之前。">
+          <span class="pin-node"><span class="pin-number">ATK 12</span><span class="pin-copy"><strong>OV_D3</strong><small>像素数据 bit 3</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-10</span><span class="pin-copy"><strong>P406</strong><small>VIO_D3 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 6。">
+          <span class="pin-node"><span class="pin-number">ATK 13</span><span class="pin-copy"><strong>OV_D6</strong><small>像素数据 bit 6</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-11</span><span class="pin-copy"><strong>P702</strong><small>VIO_D6 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 5。注意模块排针顺序中 D6 位于 D5 之前。">
+          <span class="pin-node"><span class="pin-number">ATK 14</span><span class="pin-copy"><strong>OV_D5</strong><small>像素数据 bit 5</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-12</span><span class="pin-copy"><strong>P701</strong><small>VIO_D5 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-timing" type="button" data-group="timing" data-stage="video" data-detail="像素时钟输入，对应 CEU VIO_CLK。该线对信号完整性最敏感，应尽量短，并在附近提供可靠地线。">
+          <span class="pin-node"><span class="pin-number">ATK 15</span><span class="pin-copy"><strong>OV_PCLK</strong><small>像素时钟</small></span></span>
+          <span class="trace"><span>时序</span></span>
+          <span class="pin-node"><span class="pin-number">P8-13</span><span class="pin-copy"><strong>P414</strong><small>VIO_CLK / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-data" type="button" data-group="data" data-stage="video" data-detail="8 位 DVP 数据总线 bit 7。">
+          <span class="pin-node"><span class="pin-number">ATK 16</span><span class="pin-copy"><strong>OV_D7</strong><small>像素数据 bit 7</small></span></span>
+          <span class="trace"><span>数据</span></span>
+          <span class="pin-node"><span class="pin-number">P8-14</span><span class="pin-copy"><strong>P703</strong><small>VIO_D7 / CEU</small></span></span>
+        </button>
+
+        <button class="wire-row group-control" type="button" data-group="control" data-stage="bringup" data-detail="掉电控制，高电平有效。上电安全状态为高；启动摄像头时先拉低 PWDN，再释放 RESET。">
+          <span class="pin-node"><span class="pin-number">ATK 17</span><span class="pin-copy"><strong>OV_PWDN</strong><small>高有效</small></span></span>
+          <span class="trace"><span>控制</span></span>
+          <span class="pin-node"><span class="pin-number">P8-15</span><span class="pin-copy"><strong>P710</strong><small>GPIO 输出</small></span></span>
+        </button>
+
+        <button class="wire-row group-nc" type="button" data-group="nc" data-stage="safe" data-detail="不要连接。ATK V1.2 电气原理图标注 pin 18 为 NC，但机械丝印资料存在 FLASH 标注；P8-16/P109 也不用于给模块提供 XCLK。首次接线建议逐线跳接并让两端悬空。">
+          <span class="pin-node"><span class="pin-number">ATK 18</span><span class="pin-copy"><strong>NC / FLASH?</strong><small>必须悬空</small></span></span>
+          <span class="trace"><span>不连接</span></span>
+          <span class="pin-node"><span class="pin-number">P8-16</span><span class="pin-copy"><strong>P109 / XCLK</strong><small>必须悬空</small></span></span>
+        </button>
+      </div>
+
+      <div class="detail-bar" id="detailBar" aria-live="polite">
+        <strong>接线原则：</strong>先断电，按信号名逐线连接；不要仅按排针位置猜测方向。
+      </div>
+    </section>
+
+    <div class="legend" aria-label="颜色图例">
+      <span class="legend-item"><span class="legend-swatch power"></span>电源</span>
+      <span class="legend-item"><span class="legend-swatch sccb"></span>SCCB</span>
+      <span class="legend-item"><span class="legend-swatch control"></span>RESET / PWDN</span>
+      <span class="legend-item"><span class="legend-swatch timing"></span>VSYNC / HREF / PCLK</span>
+      <span class="legend-item"><span class="legend-swatch data"></span>D0–D7</span>
+      <span class="legend-item"><span class="legend-swatch"></span>悬空</span>
+    </div>
+
+    <section class="notes-section">
+      <div>
+        <h2>上电前检查</h2>
+        <ul class="check-list">
+          <li>断电状态下确认模块 pin 1 方向，按本图逐线检查。</li>
+          <li>万用表确认 ATK pin 2 相对 pin 1 为 3.3 V，禁止 5 V。</li>
+          <li>确认 SCL=P410、SDA=P409，没有接反或与其他外设共用。</li>
+          <li>当前阶段先验证芯片 ID：0x300A=0x56、0x300B=0x40。</li>
+          <li>ID 稳定通过 20 次后，再启用 PCLK、VSYNC、HREF 与 D0–D7。</li>
+        </ul>
+      </div>
+      <div class="warning-box">
+        <strong>关于直接插接</strong>
+        ATK 接口是 2×9，P8 是 2×8。为了确保 ATK pin 18 与 P8-16/P109 真正悬空，首次调试优先使用逐线跳接。只有确认手中模块 pin 18 电气上确为 NC 后，才考虑按 pin 3–18 对齐 P8-1–16。
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      依据：CPKHMI-RA8P1 扩展板原理图、ATK-MC5640 V1.2 原理图/用户手册、RA8P1 FSP 6.5.0 引脚映射。硬件修订版本变化时必须重新核对。
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var filterButtons = Array.from(document.querySelectorAll(".filter-button"));
+      var wireRows = Array.from(document.querySelectorAll(".wire-row"));
+      var powerMap = document.querySelector(".power-map");
+      var detailBar = document.getElementById("detailBar");
+      var printButton = document.getElementById("printButton");
+
+      function matchesFilter(row, filter) {
+        if (filter === "all") {
+          return true;
+        }
+        if (filter === "bringup") {
+          return row.dataset.stage === "bringup";
+        }
+        if (filter === "video") {
+          return row.dataset.stage === "video";
+        }
+        return row.dataset.stage === "safe";
+      }
+
+      function applyFilter(filter) {
+        filterButtons.forEach(function (button) {
+          button.setAttribute("aria-pressed", String(button.dataset.filter === filter));
+        });
+
+        wireRows.forEach(function (row) {
+          row.classList.toggle("is-muted", !matchesFilter(row, filter));
+        });
+
+        powerMap.style.opacity = (filter === "all" || filter === "safe" || filter === "bringup") ? "1" : "0.22";
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          applyFilter(button.dataset.filter);
+        });
+      });
+
+      wireRows.forEach(function (row) {
+        row.addEventListener("click", function () {
+          wireRows.forEach(function (item) {
+            item.classList.remove("is-selected");
+          });
+          row.classList.add("is-selected");
+
+          var left = row.querySelector(".pin-node:first-child .pin-number").textContent.trim();
+          var signal = row.querySelector(".pin-node:first-child strong").textContent.trim();
+          var right = row.querySelector(".pin-node:last-child .pin-number").textContent.trim();
+          var target = row.querySelector(".pin-node:last-child strong").textContent.trim();
+
+          detailBar.innerHTML = "<strong>" + left + " " + signal + " → " + right + " " + target + "：</strong>" + row.dataset.detail;
+        });
+      });
+
+      printButton.addEventListener("click", function () {
+        window.print();
+      });
+    }());
+  </script>
+</body>
+</html>

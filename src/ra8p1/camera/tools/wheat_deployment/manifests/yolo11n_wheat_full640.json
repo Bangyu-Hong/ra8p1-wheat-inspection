@@ -1,0 +1,107 @@
+{
+  "class_names": [
+    "wheat_head"
+  ],
+  "input": {
+    "color_order": "RGB",
+    "dtype": "float32",
+    "layout": "NCHW",
+    "name": "images",
+    "normalization": "uint8 / 255.0",
+    "shape": [
+      1,
+      3,
+      640,
+      640
+    ]
+  },
+  "model_id": "teammate-yolo11n-wheat-full640-smoke-v1",
+  "onnx": {
+    "ir_version": 9,
+    "opsets": {
+      "ai.onnx": 19
+    },
+    "operator_counts": {
+      "Add": 17,
+      "Concat": 23,
+      "Constant": 27,
+      "Conv": 88,
+      "Div": 2,
+      "Gather": 1,
+      "MatMul": 2,
+      "MaxPool": 3,
+      "Mul": 81,
+      "Reshape": 8,
+      "Resize": 2,
+      "Shape": 1,
+      "Sigmoid": 78,
+      "Slice": 2,
+      "Softmax": 2,
+      "Split": 11,
+      "Sub": 2,
+      "Transpose": 3
+    },
+    "producer_name": "pytorch",
+    "producer_version": "2.6.0",
+    "ultralytics_version": "8.3.111"
+  },
+  "output": {
+    "candidate_count": 8400,
+    "channels": [
+      "center_x",
+      "center_y",
+      "width",
+      "height",
+      "wheat_head_confidence"
+    ],
+    "dtype": "float32",
+    "embedded_nms": false,
+    "extra_sigmoid_required": false,
+    "layout": "NCHW-like channels-first candidates",
+    "name": "output0",
+    "shape": [
+      1,
+      5,
+      8400
+    ]
+  },
+  "postprocessing": {
+    "candidate_capacity": 300,
+    "confidence_threshold": 0.25,
+    "coordinate_format": "anchor-free xywh",
+    "frame_clip": [
+      0,
+      0,
+      640,
+      480
+    ],
+    "global_nms": true,
+    "iou_threshold": 0.45,
+    "letterbox_y_offset": 80,
+    "result_capacity": 64,
+    "result_overflow_policy": "invalidate_result",
+    "tie_break": "higher confidence, then lower source candidate index"
+  },
+  "schema_version": 1,
+  "source_model": {
+    "bytes": 10564807,
+    "file_name": "best（11n640）.onnx",
+    "sha256": "f0f06bf0032e62f14da5882f87e5440585796f9710de67482775fcb99202270c",
+    "training_evidence_status": "missing; smoke test only"
+  },
+  "source_preprocessing": {
+    "camera_format": "RGB565-BE",
+    "camera_shape": [
+      480,
+      640
+    ],
+    "geometric_resize": false,
+    "letterbox_bottom_rows": 80,
+    "letterbox_top_rows": 80,
+    "padding_rgb": [
+      114,
+      114,
+      114
+    ]
+  }
+}

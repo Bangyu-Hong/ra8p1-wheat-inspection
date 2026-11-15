@@ -1,0 +1,6 @@
+/Debug/
+/Release/
+/JLinkLog.log
+/*.elf.jlink
+/*.stackdump
+/src/esp_at_credentials.h

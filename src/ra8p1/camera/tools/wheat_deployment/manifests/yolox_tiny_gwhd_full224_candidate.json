@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "candidate": "yolox_tiny_gwhd_full224",
+  "decision_date": "2026-08-12",
+  "status": "rejected",
+  "purpose": "full224-chain-smoke",
+  "scope": {
+    "proves": "The delivered YOLOX FP32 ONNX can be imported, calibrated, saved as INT8 MERA, split into C and Ethos-U55 regions, code-generated, and reloaded in a fresh interpreter.",
+    "does_not_prove": [
+      "tile224/stride179 VGA accuracy",
+      "12-tile local-to-global restoration",
+      "global-NMS counting accuracy",
+      "competition model acceptance"
+    ],
+    "final_tile_model": false
+  },
+  "source": {
+    "model": {
+      "generated_path": "models/YOLOX_Tiny_GWHD_224_训练完成产物_20260810/yolox_tiny_gwhd_224_fp32.onnx",
+      "bytes": 20190187,
+      "sha256": "264f031b25b502b43b78cd163de1e5d6397c2847bb5b5b1cb65898dd5514d988",
+      "input": "float32 NCHW [1,3,224,224], range [0,255]",
+      "output": "float32 [1,1029,6], raw tx/ty/tw/th/objectness/class probability"
+    },
+    "split_manifest": {
+      "generated_path": "models/YOLOX_Tiny_GWHD_224_训练完成产物_20260810/split_manifest.csv",
+      "bytes": 728902,
+      "sha256": "ed53ca6a636af19a16ab7053a28e95e9363ecb6f81f18fb3332654161e807fc7"
+    },
+    "golden_20": {
+      "generated_path": "models/YOLOX_Tiny_GWHD_224_训练完成产物_20260810/golden_20_images.zip",
+      "bytes": 4157985,
+      "sha256": "854cb9db753501b32ac41c5198e1645c07ec591bff455a3bf9898aa70d0b7497"
+    },
+    "dataset_geometry": "Each original GWHD image is cropped to 1024x768, JPEG encoded at quality 95, then the whole 4:3 view is resized to 224x168 and top-left padded to 224x224.",
+    "tile_model_contract_met": false
+  },
+  "calibration": {
+    "count": 200,
+    "split": "train only",
+    "selection": "seven domains by five box-density quintiles with deterministic hash order",
+    "golden_preprocessing_cases": 20,
+    "golden_maximum_difference": 0.0,
+    "manifest": {
+      "generated_path": "output/yolox_tiny_full224_intake/calibration_200/calibration_manifest.json",
+      "bytes": 209417,
+      "sha256": "8e5b0303ce0230a6845eae5b2fef54fb5f76cc163be88ef7ce5c8dc279c9c171"
+    }
+  },
+  "toolchain": {
+    "ruhmi_framework_commit": "6c5aad901a1a41e28f6e306bfc35c44659e89502",
+    "mera": "2.6.0+pkg.4815",
+    "platform": "RA8P1 Ethos-U55-256",
+    "successful_command": "python mcu_compile.py <ascii-model.onnx> <new-output> --npu --quantize --calib-data <calibration_200/tensors> --calib-num 200 --memory-threshold 64 --ref-data",
+    "unicode_path_finding": "Native MERA import failed on the Chinese artifact path but succeeded on a hash-identical ASCII path; this was an environment path bug, not a model incompatibility.",
+    "vela_path_finding": "The first deployment attempt failed because vela.exe was absent from PATH. The successful run prepended the pinned RUHMI venv Scripts directory.",
+    "first_environment_failure_log": {
+      "generated_path": "output/yolox_tiny_full224_intake/compiler_full224_int8.log",
+      "bytes": 198946,
+      "sha256": "b2973e9e670cb2236c8c09d8e2467346e20ba39349c88d2c7f47d9087fc0e9a4"
+    },
+    "successful_compiler_log": {
+      "generated_path": "output/yolox_tiny_full224_intake/compiler_full224_int8_pathfix.log",
+      "bytes": 189556,
+      "sha256": "e7a38d0494869264529a7efbb1848223a3a6749e9cdfad42d2012b84a9edec12"
+    }
+  },
+  "compiler": {
+    "exit_status": 0,
+    "quantization_psnr_db": 16.396,
+    "quantization_score": 97.707,
+    "saved_model": {
+      "generated_path": "output/yolox_tiny_full224_intake/compiler_full224_int8_pathfix/yolox_tiny_gwhd_full224_fp32_NPU_quantized/quantization/model.mera",
+      "bytes": 5894676,
+      "sha256": "ac625b0698e4fc4e94d7d238cd136dd1216d594acab5e7e27d2936fcccb477d5"
+    },
+    "region_count": {
+      "C_CODEGEN": 5,
+      "ARM_ETHOS_U55": 3
+    },
+    "allocation": {
+      "npu_regions_cpu_operator_counts": [0, 0, 0],
+      "npu_regions_npu_operator_counts": [138, 22, 139],
+      "cpu_regions": [
+        "input float-to-int8 quantization and YOLOX Focus strided slices",
+        "nearest-neighbor Resize 1x7x7x192 to 1x14x14x192",
+        "nearest-neighbor Resize 1x14x14x96 to 1x28x28x96",
+        "output int8-to-float dequantization"
+      ],
+      "model_subgraphs": {
+        "generated_path": "output/yolox_tiny_full224_intake/compiler_full224_int8_pathfix/yolox_tiny_gwhd_full224_fp32_NPU_quantized/deploy/build/MCU/model_subgraphs.json",
+        "bytes": 505909,
+        "sha256": "5ee1c2d9405706231d56876485e4643fe91b406da1a09057598d6a36a6552010"
+      },
+      "execution_plan": {
+        "generated_path": "output/yolox_tiny_full224_intake/compiler_full224_int8_pathfix/yolox_tiny_gwhd_full224_fp32_NPU_quantized/deploy/build/MCU/compilation/mera.plan",
+        "bytes": 11982,
+        "sha256": "db63ad2f03b09049dd26fdf872357d4b44d305565ef2d9ce87268af71b56a3a0"
+      }
+    },
+    "memory": {
+      "c_abi_input_bytes": 602112,
+      "c_abi_output_bytes": 24696,
+      "generated_static_working_bytes_without_constants": 2621730,
+      "npu_arena_bytes": [802816, 150528, 329280],
+      "npu_constant_bytes": [2311856, 216080, 2113248],
+      "npu_constant_total_bytes": 4641184,
+      "vela_estimated_stage_ms": [20.041788, 1.598892, 9.806084],
+      "vela_estimated_npu_total_ms": 31.446764,
+      "latency_note": "Vela estimates exclude CPU Focus/Resize/dequantize, copies, preprocessing, postprocessing, cache maintenance, and board contention. They are not board acceptance evidence."
+    }
+  },
+  "saved_model_gate": {
+    "loader": "ModelLoader.from_quantized_mera",
+    "case_count": 20,
+    "all_outputs_finite": true,
+    "all_outputs_nonconstant": true,
+    "fp32_decoder_matches_all_delivered_counts": true,
+    "fp32_candidate_total": 4082,
+    "int8_candidate_total": 426,
+    "candidate_retention": 0.10436060754532092,
+    "candidate_index_recall": 0.06099951004409603,
+    "fp32_nms_total": 671,
+    "int8_nms_total": 166,
+    "nms_count_retention": 0.2473919523099851,
+    "nms_index_recall": 0.020864381520119227,
+    "count_mae_against_fp32": 25.25,
+    "count_max_absolute_error": 42,
+    "host_interpreter_mean_ms": 1143.8626449999902,
+    "host_latency_note": "MERAInterpreter host time includes host interpretation and is not an RA8P1 latency estimate.",
+    "report": {
+      "generated_path": "output/yolox_tiny_full224_intake/saved_model_gate_20_v2/saved_model_gate.json",
+      "bytes": 13709,
+      "sha256": "64766cb15201e312039e4a80a4262c8485a8ed00b5dc6279e62f5fc5310cce75"
+    }
+  },
+  "decision": {
+    "deployment_chain_smoke_completed": true,
+    "saved_model_accuracy_accepted": false,
+    "allocation_accepted": false,
+    "firmware_integration_allowed": false,
+    "firmware_backend_status": "replacement-model-pending",
+    "board_flash_status": "not attempted",
+    "rejection_reasons": [
+      "The delivered checkpoint is full224, not the required tile224/stride179 competition model.",
+      "Saved INT8 detection recall collapsed: only 166 of 671 FP32 NMS counts remained and NMS index recall was 2.09%.",
+      "The Cortex-M85 executes YOLOX Focus slicing and both backbone nearest-neighbor Resize operators."
+    ],
+    "next_route": "Train a true tile224/stride179 YOLOX candidate with quantization-aware hardening and deployment-friendly stem/upsampling, then repeat the same saved-MERA accuracy and allocation gates.",
+    "prohibited_actions": [
+      "integrate the generated model into firmware",
+      "flash this candidate",
+      "lower the confidence threshold to hide lost detections",
+      "claim tile or competition accuracy from full224 metrics",
+      "claim full NPU allocation from the three Vela regions"
+    ]
+  }
+}

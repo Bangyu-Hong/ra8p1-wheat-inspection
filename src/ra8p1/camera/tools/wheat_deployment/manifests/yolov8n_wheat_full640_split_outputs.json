@@ -1,0 +1,231 @@
+{
+  "class_names": [
+    "wheat_head"
+  ],
+  "deployment_gate": {
+    "board_deployment_status": "not attempted",
+    "cpu_fallback_status": "zero CPU operators inside each Vela region; 4 C_CODEGEN regions remain",
+    "ethos_u55_allocation_status": "3 ARM_ETHOS_U55 regions plus 4 C_CODEGEN regions",
+    "recommendation": "rejected because quantized scores remain below the frozen 0.25 threshold; use only as evidence leading to the predecode-output candidate",
+    "ruhmi_conversion_status": "completed; rejected for score quantization"
+  },
+  "derivation": {
+    "logical_output_assembly": "np.concatenate([boxes, scores], axis=1)",
+    "network_calculations_changed": false,
+    "removed_node": {
+      "axis": 1,
+      "name": "/model.22/Concat_5",
+      "op_type": "Concat",
+      "source_output": "output0"
+    },
+    "source_model": {
+      "bytes": 12251526,
+      "file_name": "best.onnx",
+      "relative_path": "models/wheat_yolov8n_640/weights/best.onnx",
+      "sha256": "3145575023728b64054083061b0afb4288ad47a7014ba9e862106d5e31c09197"
+    },
+    "transform_id": "split-terminal-concat-v1"
+  },
+  "input": {
+    "color_order": "RGB",
+    "dtype": "float32",
+    "layout": "NCHW",
+    "name": "images",
+    "normalization": "uint8 / 255.0",
+    "shape": [
+      1,
+      3,
+      640,
+      640
+    ]
+  },
+  "logical_decoder_output": {
+    "channels": [
+      "center_x",
+      "center_y",
+      "width",
+      "height",
+      "wheat_head_confidence"
+    ],
+    "dtype": "float32",
+    "shape": [
+      1,
+      5,
+      8400
+    ]
+  },
+  "model_id": "teammate-yolov8n-wheat-full640-split-outputs-ruhmi-candidate-v1",
+  "onnx": {
+    "initializer_count": 140,
+    "initializer_elements": 3047862,
+    "ir_version": 7,
+    "node_count": 236,
+    "operator_counts": {
+      "Add": 9,
+      "Concat": 18,
+      "Conv": 64,
+      "Div": 2,
+      "MaxPool": 3,
+      "Mul": 59,
+      "Reshape": 5,
+      "Resize": 2,
+      "Sigmoid": 58,
+      "Slice": 2,
+      "Softmax": 1,
+      "Split": 9,
+      "Sub": 2,
+      "Transpose": 2
+    },
+    "opsets": {
+      "ai.onnx": 12
+    },
+    "producer_name": "pytorch",
+    "producer_version": "2.6.0",
+    "ultralytics_version": "8.3.111"
+  },
+  "original_single_output_rejection": {
+    "allocation": {
+      "c_codegen_regions": 4,
+      "ethos_u55_regions": 3,
+      "vela_region_cpu_operator_counts": [
+        0,
+        0,
+        0
+      ],
+      "vela_region_npu_operator_counts": [
+        156,
+        27,
+        194
+      ]
+    },
+    "compiler_log": "output/ruhmi_yolov8n_full640/compiler_internal_pathfix.log",
+    "cause": "the shared output0 INT8 range is dominated by box coordinates and collapses wheat confidence to zero",
+    "output0_psnr": 8.649,
+    "output0_score": 86.352,
+    "status": "rejected",
+    "terminal_score_fp32_max": 0.785,
+    "terminal_score_quantized_max": 0.0
+  },
+  "ruhmi_evidence": {
+    "compiler_log": "output/ruhmi_yolov8n_full640/compiler_split_outputs.log",
+    "operator_allocation": {
+      "c_codegen_regions": 4,
+      "ethos_u55_regions": 3,
+      "vela_regions": [
+        {
+          "cpu_operators": 0,
+          "flash_kib": 1174.78125,
+          "npu_operators": 156,
+          "sram_kib": 3200.0
+        },
+        {
+          "cpu_operators": 0,
+          "flash_kib": 138.71875,
+          "npu_operators": 27,
+          "sram_kib": 1200.0
+        },
+        {
+          "cpu_operators": 0,
+          "flash_kib": 1477.09375,
+          "npu_operators": 192,
+          "sram_kib": 10508.203125
+        }
+      ]
+    },
+    "quantization_rejection": {
+      "boxes": {
+        "fp32_max": 637.214,
+        "fp32_min": 2.915,
+        "psnr": 7.641,
+        "quantized_max": 129.723,
+        "quantized_min": -20.756,
+        "score": 82.783
+      },
+      "cause": "quantized score maximum 0.118 is below the frozen confidence threshold 0.25",
+      "scores": {
+        "fp32_max": 0.785,
+        "psnr": 16.855,
+        "quantized_max": 0.118,
+        "score": 97.937
+      },
+      "status": "rejected"
+    }
+  },
+  "outputs": [
+    {
+      "candidate_count": 8400,
+      "channels": [
+        "center_x",
+        "center_y",
+        "width",
+        "height"
+      ],
+      "dtype": "float32",
+      "embedded_nms": false,
+      "layout": "NCHW-like channels-first candidates",
+      "name": "boxes",
+      "shape": [
+        1,
+        4,
+        8400
+      ]
+    },
+    {
+      "candidate_count": 8400,
+      "channels": [
+        "wheat_head_confidence"
+      ],
+      "dtype": "float32",
+      "embedded_nms": false,
+      "extra_sigmoid_required": false,
+      "layout": "NCHW-like channels-first candidates",
+      "name": "scores",
+      "shape": [
+        1,
+        1,
+        8400
+      ]
+    }
+  ],
+  "postprocessing": {
+    "candidate_capacity": 300,
+    "confidence_threshold": 0.25,
+    "coordinate_format": "anchor-free xywh",
+    "frame_clip": [
+      0,
+      0,
+      640,
+      480
+    ],
+    "global_nms": true,
+    "iou_threshold": 0.45,
+    "letterbox_y_offset": 80,
+    "result_capacity": 64,
+    "result_overflow_policy": "invalidate_result",
+    "tie_break": "higher confidence, then lower source candidate index"
+  },
+  "schema_version": 1,
+  "source_model": {
+    "artifact_role": "derived ABI-only RUHMI candidate",
+    "bytes": 12251667,
+    "file_name": "yolov8n_wheat_full640_split_outputs.onnx",
+    "generated_path": "output/ruhmi_yolov8n_full640/derived/yolov8n_wheat_full640_split_outputs.onnx",
+    "sha256": "db640636180eb2f1c34b8a1ad3ffd068ab5c5a8a9586c0f044eed1cf15d36d86",
+    "training_evidence_status": "inherited from immutable source; partial teammate-run evidence only"
+  },
+  "source_preprocessing": {
+    "camera_format": "RGB565-BE",
+    "camera_shape": [
+      480,
+      640
+    ],
+    "geometric_resize": false,
+    "letterbox_bottom_rows": 80,
+    "letterbox_top_rows": 80,
+    "padding_rgb": [
+      114,
+      114,
+      114
+    ]
+  }
+}

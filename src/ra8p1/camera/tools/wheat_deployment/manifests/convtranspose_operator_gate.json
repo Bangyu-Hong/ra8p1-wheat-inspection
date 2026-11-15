@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "candidate": "yolov8n_full320_no_resize_convtranspose_operator_gate",
+  "decision_date": "2026-08-09",
+  "status": "rejected",
+  "purpose": "Qualify the two real YOLOv8n feature-pyramid ConvTranspose shapes before starting replacement training.",
+  "immutable_source": {
+    "generated_path": "models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_combined_fp32.onnx",
+    "bytes": 12112301,
+    "sha256": "a59903d06fb9bd8f7e1a69b755edd00bcca7018a0736f91a54fdb232dd0971d2"
+  },
+  "toolchain": {
+    "ruhmi_release": "Release-2026-06-19",
+    "mera": "2.6.0+pkg.4815",
+    "vela": "4.2.0",
+    "compiler": "F:/Renesas/RUHMI/ruhmi-framework-mcu/scripts/mcu_compile.py",
+    "command_contract": "python mcu_compile.py <model.onnx> <new_output_dir> --npu --quantize --calib-data <real_feature_tensors> --calib-num 35 --memory-threshold 64 --ref-data",
+    "compiler_exit_status": 1,
+    "compiler_exit_interpretation": "Quantization, model.mera save, Vela allocation, and C generation completed. The final status failed only because the Windows GBK console could not encode U+2705. Artifacts and logs, not this final print error, are the gate evidence."
+  },
+  "calibration": {
+    "source_directory": "output/ruhmi_yolov8n_320/calibration_fp32",
+    "source_tensor_count": 35,
+    "source_input_shape": [1, 3, 320, 320],
+    "source_input_dtype": "float32",
+    "strategy": "Expose the inputs of the two immutable source Resize nodes and run all 35 frozen camera-preprocessed tensors through ONNX Runtime.",
+    "prepare_report": {
+      "generated_path": "output/ruhmi_convtranspose_operator_gate/prepare_report.json",
+      "bytes": 65625,
+      "sha256": "f86a1ac967ab9555dc2b9a1e46fdb618458066f27fa0c4b6eca5a54c3e279679"
+    }
+  },
+  "model_contract": {
+    "operator": "ConvTranspose",
+    "opset": 13,
+    "kernel_shape": [2, 2],
+    "strides": [2, 2],
+    "pads": [0, 0, 0, 0],
+    "output_padding": [0, 0],
+    "group": 1,
+    "weights": "Dense channel-diagonal 2x2 ones with zero bias; FP32 output is exactly nearest-neighbor replication.",
+    "acceptance": {
+      "fp32_matches_np_repeat": true,
+      "saved_model_reload_required": true,
+      "saved_model_numeric_gate_required": true,
+      "convtranspose_must_execute_in_arm_ethos_u55": true,
+      "convtranspose_in_c_codegen_is_rejection": true
+    }
+  },
+  "shapes": [
+    {
+      "key": "c256_10_to_20",
+      "source_tensor": "/model.9/cv2/act/Mul_output_0",
+      "input_shape": [1, 256, 10, 10],
+      "output_shape": [1, 256, 20, 20],
+      "smoke_onnx": {
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/convtranspose_c256_10_to_20.onnx",
+        "bytes": 1049995,
+        "sha256": "5ca79dd50beefebb9e1ef063e00a23dc581526f7aa95cc1e86138344a52f3153"
+      },
+      "fp32_gate": {
+        "status": "passed",
+        "calibration_tensor_count": 35,
+        "maximum_absolute_difference_from_np_repeat": 0.0,
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/fp32_gate.json",
+        "bytes": 28892,
+        "sha256": "e505cf46c62395e1cbfbadf144ae2f332c85f471b0438048dad37a91e11cf8b5"
+      },
+      "compiler": {
+        "core_generation_status": "completed",
+        "log": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/compiler.log",
+          "bytes": 19886,
+          "sha256": "0a2efbe21b88f485f833f750a25210632b51e2d6f71fafe731d395f14f009248"
+        },
+        "saved_model": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/compiler/convtranspose_c256_10_to_20_NPU_quantized/quantization/model.mera",
+          "bytes": 273863,
+          "sha256": "346ebf4c4d2491ceae014dd79d84eb762978e327308369cff9a0858bbd29b6d8"
+        }
+      },
+      "saved_model_gate": {
+        "status": "passed",
+        "loader": "ModelLoader.from_quantized_mera",
+        "calibration_tensor_count": 35,
+        "worst_normalized_rmse": 0.029321816915545893,
+        "minimum_cosine_similarity": 0.9742503272476016,
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/saved_model_gate/saved_model_gate.json",
+        "bytes": 60422,
+        "sha256": "4dd58aed2074966cac007a62b88f6eaf905d61661ba54a966840d1a305e60527"
+      },
+      "allocation_gate": {
+        "status": "rejected",
+        "c_codegen_region_count": 3,
+        "arm_ethos_u55_region_count": 2,
+        "c_codegen_learned_operator_region_count": 1,
+        "arm_ethos_u55_learned_operator_region_count": 0,
+        "learned_operator": "TFLiteTransposeConv2dBias",
+        "learned_operator_target": "C_CODEGEN",
+        "npu_region_operators": ["TFLiteTranspose", "TFLiteTranspose"],
+        "generated_cpu_kernel": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/compiler/convtranspose_c256_10_to_20_NPU_quantized/deploy/build/MCU/compilation/src/compute_sub_0002.c",
+          "bytes": 799138,
+          "sha256": "046dea3a1cd98c6cc467b63017eb29774dd5e8ec7ce3bdca97ef97195f8acfcd"
+        },
+        "model_subgraphs": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/compiler/convtranspose_c256_10_to_20_NPU_quantized/deploy/build/MCU/model_subgraphs.json",
+          "bytes": 20006,
+          "sha256": "b8c7cefe064849c5cdef367f4014153069e664a128d876dd74a9d00a3ade16a3"
+        },
+        "report": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c256_10_to_20/allocation_gate.json",
+          "bytes": 5815,
+          "sha256": "3044066e9c78e028cd7d758cf9b1ea5081fe3a1285fd92339c1965160ea7eeec"
+        }
+      }
+    },
+    {
+      "key": "c128_20_to_40",
+      "source_tensor": "/model.12/cv2/act/Mul_output_0",
+      "input_shape": [1, 128, 20, 20],
+      "output_shape": [1, 128, 40, 40],
+      "smoke_onnx": {
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/convtranspose_c128_20_to_40.onnx",
+        "bytes": 263051,
+        "sha256": "b478a2e25a11c16f195c044606f5b73fe5cf0ff269f922a65da652be6ea7e40f"
+      },
+      "fp32_gate": {
+        "status": "passed",
+        "calibration_tensor_count": 35,
+        "maximum_absolute_difference_from_np_repeat": 0.0,
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/fp32_gate.json",
+        "bytes": 28868,
+        "sha256": "c8e7afce99d17bf7bf3cd485478ba5a51384f3c61385a733545fa8fbe6074b51"
+      },
+      "compiler": {
+        "core_generation_status": "completed",
+        "log": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/compiler.log",
+          "bytes": 20162,
+          "sha256": "855d66140027b9655b37de837088b5488961d364f2f6aec74ff98a94ab06702c"
+        },
+        "saved_model": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/compiler/convtranspose_c128_20_to_40_NPU_quantized/quantization/model.mera",
+          "bytes": 73433,
+          "sha256": "528b15f56a2a8a5adf5ffa1275c6c68e382c72c7e11c8b464cf82a80f7954164"
+        }
+      },
+      "saved_model_gate": {
+        "status": "passed",
+        "loader": "ModelLoader.from_quantized_mera",
+        "calibration_tensor_count": 35,
+        "worst_normalized_rmse": 0.0027663712349401135,
+        "minimum_cosine_similarity": 0.9995236036660523,
+        "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/saved_model_gate/saved_model_gate.json",
+        "bytes": 60513,
+        "sha256": "6f5034d01aee5f123175c3e602075697616ecfc8f8bd99d503dc964f2f3cff03"
+      },
+      "allocation_gate": {
+        "status": "rejected",
+        "c_codegen_region_count": 3,
+        "arm_ethos_u55_region_count": 2,
+        "c_codegen_learned_operator_region_count": 1,
+        "arm_ethos_u55_learned_operator_region_count": 0,
+        "learned_operator": "TFLiteTransposeConv2dBias",
+        "learned_operator_target": "C_CODEGEN",
+        "npu_region_operators": ["TFLiteTranspose", "TFLiteTranspose"],
+        "generated_cpu_kernel": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/compiler/convtranspose_c128_20_to_40_NPU_quantized/deploy/build/MCU/compilation/src/compute_sub_0002.c",
+          "bytes": 205859,
+          "sha256": "843f42a85c5fc92be45bfe138fc12d120f90a35e9ef4235401a0d8b34628609a"
+        },
+        "model_subgraphs": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/compiler/convtranspose_c128_20_to_40_NPU_quantized/deploy/build/MCU/model_subgraphs.json",
+          "bytes": 20009,
+          "sha256": "d440d368baff56a4098b20758018a33a3fa157ca927ed864f6672a3631473f39"
+        },
+        "report": {
+          "generated_path": "output/ruhmi_convtranspose_operator_gate/c128_20_to_40/allocation_gate.json",
+          "bytes": 5814,
+          "sha256": "ceae86e818838b6ae85930c590d0364fba5408ac42ee6b8b38f409a176bf9c06"
+        }
+      }
+    }
+  ],
+  "decision": {
+    "operator_gate_passed": false,
+    "saved_model_numeric_gate_passed_for_both_shapes": true,
+    "npu_allocation_gate_passed_for_both_shapes": false,
+    "no_resize_yolov8n_training_unlocked": false,
+    "rejection_reason": "For both real shapes, TFLiteTransposeConv2dBias executes in C_CODEGEN. The two ARM_ETHOS_U55 regions execute layout Transpose only, so the learned upsampling remains on Cortex-M85.",
+    "firmware_backend_status": "replacement-model-pending",
+    "board_flash_status": "not attempted",
+    "next_route": "NanoDet-Plus architecture intake and fixed-shape RUHMI operator/output feasibility gate",
+    "second_fallback_route": "MobileNetV2-SSDLite architecture intake and fixed-shape RUHMI operator/output feasibility gate",
+    "prohibited_actions": [
+      "start full custom ConvTranspose YOLOv8n training",
+      "claim NPU allocation from the two Vela Transpose regions",
+      "accept the C_CODEGEN learned upsampling as NPU-only",
+      "integrate either smoke model into firmware",
+      "flash either smoke model"
+    ]
+  }
+}

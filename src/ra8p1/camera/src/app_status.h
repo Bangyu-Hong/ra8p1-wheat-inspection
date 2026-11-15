@@ -1,0 +1,17 @@
+#ifndef APP_STATUS_H_
+#define APP_STATUS_H_
+
+typedef enum e_app_status
+{
+    APP_STATUS_OK = 0,
+    APP_STATUS_NOT_INITIALIZED,
+    APP_STATUS_BUSY,
+    APP_STATUS_TIMEOUT,
+    APP_STATUS_INVALID_ARGUMENT,
+    APP_STATUS_IO,
+    APP_STATUS_PROTOCOL,
+    APP_STATUS_DATA,
+    APP_STATUS_UNAVAILABLE
+} app_status_t;
+
+#endif /* APP_STATUS_H_ */

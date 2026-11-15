@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "model_id": "qat-yolov8n-wheat-full320-predecode-ruhmi-candidate-v1",
+  "class_names": [
+    "wheat_head"
+  ],
+  "immutable_source": {
+    "artifact_role": "immutable decoded-output QAT FP32 source",
+    "bytes": 12112301,
+    "relative_path": "models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_combined_fp32.onnx",
+    "sha256": "a59903d06fb9bd8f7e1a69b755edd00bcca7018a0736f91a54fdb232dd0971d2"
+  },
+  "source_model": {
+    "artifact_role": "identity-wrapped QAT predecode FP32 candidate; pinned RUHMI input only after the parent-owned frontend preflight passes",
+    "bytes": 12067919,
+    "generated_path": "output/ruhmi_yolov8n_320_qat_predecode/derived/yolov8n_wheat_full320_qat_predecode_identity_outputs.onnx",
+    "sha256": "154f55cef66bf2aa9d108e0c1b9110e83299ba987e97275338f4dbdf8103424d"
+  },
+  "direct_predecode_model": {
+    "artifact_role": "guarded /model.22/Split derivative and FP32 parity reference",
+    "bytes": 12067502,
+    "generated_path": "output/ruhmi_yolov8n_320_qat_predecode/derived/yolov8n_wheat_full320_qat_predecode_outputs.onnx",
+    "sha256": "0a7d09348cc6c6d8343d5c6fb3a9e967bd7b1a23a6eb2246f67ea1913d4a3c5b"
+  },
+  "input": {
+    "name": "images",
+    "dtype": "float32",
+    "shape": [
+      1,
+      3,
+      320,
+      320
+    ],
+    "layout": "NCHW",
+    "color_order": "RGB",
+    "normalization": "uint8 / 255.0",
+    "dynamic_axes": false
+  },
+  "outputs": [
+    {
+      "name": "regression_logits",
+      "dtype": "float32",
+      "shape": [
+        1,
+        64,
+        2100
+      ],
+      "channels": 64,
+      "candidate_count": 2100,
+      "embedded_nms": false
+    },
+    {
+      "name": "class_logits",
+      "dtype": "float32",
+      "shape": [
+        1,
+        1,
+        2100
+      ],
+      "channels": 1,
+      "candidate_count": 2100,
+      "extra_sigmoid_required": true,
+      "embedded_nms": false
+    }
+  ],
+  "logical_decoder_output": {
+    "dtype": "float32",
+    "shape": [
+      1,
+      5,
+      2100
+    ],
+    "channels": [
+      "center_x",
+      "center_y",
+      "width",
+      "height",
+      "wheat_head_confidence"
+    ]
+  },
+  "onnx": {
+    "ir_version": 7,
+    "opsets": {
+      "ai.onnx": 13
+    },
+    "producer_name": "pytorch",
+    "producer_version": "2.6.0",
+    "node_count": 229,
+    "initializer_count": 126,
+    "operator_counts": {
+      "Add": 6,
+      "Concat": 17,
+      "Constant": 10,
+      "Conv": 63,
+      "Identity": 2,
+      "MaxPool": 3,
+      "Mul": 57,
+      "Reshape": 3,
+      "Resize": 2,
+      "Sigmoid": 57,
+      "Split": 9
+    },
+    "checker_passed": true,
+    "strict_shape_inference_passed": true,
+    "dynamic_interface_axes": false,
+    "fp16_present": false,
+    "embedded_nms": false,
+    "output_producers": {
+      "regression_logits": {
+        "name": "renesas_cup/regression_logits_output_identity",
+        "op_type": "Identity"
+      },
+      "class_logits": {
+        "name": "renesas_cup/class_logits_output_identity",
+        "op_type": "Identity"
+      }
+    }
+  },
+  "derivation": {
+    "transform_id": "remove-yolov8-detect-tail-v1",
+    "split_encoding": "opset13-static-input",
+    "split_node": {
+      "name": "/model.22/Split",
+      "op_type": "Split",
+      "axis": 1,
+      "static_split_input": "onnx::Split_388",
+      "static_split_values": [
+        64,
+        1
+      ],
+      "source_outputs": [
+        "/model.22/Split_output_0",
+        "/model.22/Split_output_1"
+      ]
+    },
+    "network_calculations_changed": false,
+    "removed_node_count": 34,
+    "removed_tail": "only DFL projection, dist2bbox/stride reconstruction, class sigmoid, and decoded output packaging reachable after /model.22/Split",
+    "removed_initializer_names": [
+      "model.22.dfl.conv.weight"
+    ],
+    "retained_conv_count": 63,
+    "direct_outputs_produced_by_split": true,
+    "identity_wrapper_transform_id": "wrap-predecode-output-identities-v1",
+    "deterministic_transform_rerun_equal": true,
+    "anchor_grid_sha256": "f5e2c98531ea9abd2fac00a141fc36194bde6a82d0c2c270f850ce9e29d78083",
+    "stride_sha256": "47adc703a3bc627469e8bdcd93c4e5d12d6496b74010ce6d749400fddad3b5ae",
+    "dfl_projection_sha256": "59caad87de2582a742029e5c0a6bc3540ca50ff92de2a65aa300c0af3af126db"
+  },
+  "postprocessing": {
+    "owner": "bounded Cortex-M85 scalar reference, then Helium only after scalar parity",
+    "cpu_neural_network_runtime": false,
+    "dfl_reg_max": 16,
+    "dfl_projection": [
+      0.0,
+      0.94482421875,
+      2.0078125,
+      2.953125,
+      4.015625,
+      4.9609375,
+      6.0234375,
+      6.96875,
+      8.03125,
+      8.9765625,
+      10.0390625,
+      10.984375,
+      12.046875,
+      12.9921875,
+      14.0546875,
+      15.0
+    ],
+    "dfl_projection_note": "the immutable QAT FP32 source contains these fake-quantized fixed projection values; using exact integer bins 0..15 does not reproduce the source",
+    "grid_sizes": [
+      40,
+      20,
+      10
+    ],
+    "strides": [
+      8,
+      16,
+      32
+    ],
+    "grid_offset": 0.5,
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "candidate_capacity": 300,
+    "result_capacity": 64,
+    "tie_break": "higher confidence, then lower source candidate index"
+  },
+  "fp32_qualification": {
+    "status": "passed",
+    "evidence_path": "output/ruhmi_yolov8n_320_qat_predecode/fp32_qualification.json",
+    "evidence_bytes": 19865,
+    "evidence_sha256": "10338705ae6d1dbe2a4593c018574a17b3117950d769c1018b910e7202c18012",
+    "environment": {
+      "python": "3.10.16",
+      "numpy": "2.1.1",
+      "onnx": "1.17.0",
+      "onnxruntime": "1.21.1",
+      "provider": "CPUExecutionProvider",
+      "graph_optimization": "ORT_DISABLE_ALL"
+    },
+    "tolerance": {
+      "absolute": 0.000125,
+      "relative": 0.0
+    },
+    "parity_case_count": 3,
+    "deterministic_synthetic_count": 2,
+    "every_direct_identity_output_bitwise_equal": true,
+    "every_source_reconstruction_within_tolerance": true,
+    "every_candidate_index_sequence_equal": true,
+    "every_candidate_count_equal": true,
+    "every_nms_index_sequence_equal": true,
+    "every_nms_count_equal": true,
+    "cases": [
+      {
+        "case_id": "fixed_golden",
+        "input_file_sha256": "32d8bf4839fdbb645bdc4bc06300c6d77a6b648698fd24fb936e3c1926c4af3a",
+        "input_tensor_sha256": "767804b5df07a50b48b1bc2f0dec26b1d5706a458ac68c8159b9eceb953785ca",
+        "regression_logits_sha256": "15ee5d5c75e2200a04076521ca193d72dd1d3f189d19f2497062f1ecceeee288",
+        "class_logits_sha256": "9adf8fe97e148a25e79661b3b26f700578c31daf781e536e99c6a2dc499928ec",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 245,
+        "retained_candidate_indices_sha256": "be1010aba916935b50e0293fa432f707f6299c2467248205edccc097117c7d88",
+        "nms_count": 32,
+        "nms_indices_sha256": "5b533afa7900588f0c8ed8bda1dc3b789d702c64b8685b1457a17220a0e58917"
+      },
+      {
+        "case_id": "synthetic_zero",
+        "input_tensor_sha256": "3630e065eb7b4540fbab11dbfd2619e8500f211b9c404380a1867fdc44b77c0c",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 0,
+        "retained_candidate_indices_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "nms_count": 0,
+        "nms_indices_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "case_id": "synthetic_u8_ramp",
+        "input_tensor_sha256": "75bcc3e9fbb35f2e3d4bd30241959d9a20608109cd7345958a4554f738be6d8b",
+        "maximum_absolute_difference": 0.00006103515625,
+        "retained_candidate_count": 3,
+        "retained_candidate_indices_sha256": "a79175742c779add7dd6d5ed11905137817a080627459f5b1157b8d96164d1d1",
+        "nms_count": 2,
+        "nms_indices_sha256": "24e40b52bc048575ec081055d477aa184df4e783d0b5e23bb5245b36b87716ec"
+      }
+    ]
+  },
+  "calibration": {
+    "status": "frozen and unchanged",
+    "tensor_count": 35,
+    "directory": "output/ruhmi_yolov8n_320/calibration_fp32",
+    "index_path": "output/ruhmi_yolov8n_320/calibration_fp32/calibration_index.json",
+    "index_file_sha256": "0125baea2f341fd50f0c8fce6ae4c783958a6a5fead6d7dd2e7a1f428cd03169",
+    "index_sha256": "3813056aa11a51d851edc7d899509dacf40355f40011d20ce0713f824e333769"
+  },
+  "historical_frontend_import_risk": {
+    "scope": "older non-QAT full320 predecode graphs and the current QAT identity-wrapped candidate",
+    "status": "confirmed on the current QAT candidate",
+    "exit_status": 3221226505,
+    "exit_status_hex": "0xC0000409",
+    "stage": "fe_onnx_cli import during Quantizing model",
+    "attempts": [
+      {
+        "variant": "direct",
+        "log_path": "output/ruhmi_yolov8n_320/compiler_predecode_outputs.log",
+        "log_bytes": 2460,
+        "log_sha256": "5d5e99f98da1548d9be24bcc8e9b425db5deb2235dbb7e49049a6e4b18ba43c0"
+      },
+      {
+        "variant": "identity_wrapped",
+        "log_path": "output/ruhmi_yolov8n_320/compiler_predecode_identity_outputs.log",
+        "log_bytes": 2568,
+        "log_sha256": "d4a51edb95c2f56adec0c4e716b2639068ef2ffc7392edebb35c2364cb329170"
+      }
+    ],
+    "current_qat_attempt": {
+      "candidate_variant": "identity-wrapped",
+      "input_description_preflight": {
+        "status": "passed",
+        "api": "ModelLoader.from_onnx",
+        "observed_input": "images float32 [1,3,320,320]",
+        "limitation": "this path reads the model input description but does not exercise the Quantizer converted-only frontend path",
+        "input_desc_path": "output/ruhmi_yolov8n_320_qat_predecode/mera_frontend_preflight_identity/model/input_desc.json",
+        "input_desc_bytes": 137,
+        "input_desc_sha256": "9dbe878b44d3af2b4c4cc13555e5b6b44ed37cb4323c381ab1013e7c112596ce"
+      },
+      "compiler_command": "python mcu_compile.py output/ruhmi_yolov8n_320_qat_predecode/derived/yolov8n_wheat_full320_qat_predecode_identity_outputs.onnx output/ruhmi_yolov8n_320_qat_predecode/compiler_identity_outputs --npu --quantize --calib-data output/ruhmi_yolov8n_320/calibration_fp32 --calib-num 35 --memory-threshold 64 --ref-data",
+      "command_exit_code": 1,
+      "frontend_exit_status": 3221226505,
+      "frontend_exit_status_hex": "0xC0000409",
+      "failure_stage": "fresh Quantizer frontend conversion in CONVERTED_ONLY mode after loading 35 tensors but before Quantizer.calibrate, quantization, Vela allocation, or model.mera save completed",
+      "log_path": "output/ruhmi_yolov8n_320_qat_predecode/compiler_identity_outputs.log",
+      "log_bytes": 2616,
+      "log_sha256": "952bfafb8fc956419f327e3d03aab3c043a71a62d0d76e0747493887d0c71025",
+      "deploy_cfg_path": "output/ruhmi_yolov8n_320_qat_predecode/compiler_identity_outputs/yolov8n_wheat_full320_qat_predecode_identity_outputs_NPU_quantized/quantization/build/MERAInterpreter/deploy_cfg.json",
+      "deploy_cfg_bytes": 1377,
+      "deploy_cfg_sha256": "15c9d2a5ea87676ee152b910adabdfcc3e4bb1554c0d509f60bf8857e30502fc",
+      "optimized_onnx": {
+        "path": "output/ruhmi_yolov8n_320_qat_predecode/compiler_identity_outputs/yolov8n_wheat_full320_qat_predecode_identity_outputs_NPU_quantized/quantization/build/MERAInterpreter/yolov8n_wheat_full320_qat_predecode_identity_outputs_optimized.onnx",
+        "bytes": 12067175,
+        "sha256": "df7764ff373b4c3d8c9aad57e0b2a1872c436cab15d1552107b63b7e8f2115ab",
+        "checker_status": "passed",
+        "output_producer": "/model.22/Split after MERA removed both output Identity nodes",
+        "regression_max_abs_vs_qualified": 0.00006186962127685547,
+        "class_max_abs_vs_qualified": 0.00005054473876953125,
+        "within_frozen_fp32_tolerance": true
+      },
+      "saved_model_generated": false,
+      "mera_file_count": 0
+    },
+    "next_action": "stop this candidate on the pinned toolchain; require a new reviewed compiler/toolchain or model-boundary decision before any new compile",
+    "frontend_preflight_status": "input-description preflight passed but Quantizer frontend import failed"
+  },
+  "ruhmi_gate": {
+    "owner": "parent session",
+    "toolchain": {
+      "renesas_release": "Release-2026-06-19",
+      "mera": "2.6.0+pkg.4815",
+      "vela": "4.2.0"
+    },
+    "framework_commit": "6c5aad901a1a41e28f6e306bfc35c44659e89502",
+    "frontend_preflight_status": "input-description preflight passed; Quantizer frontend import failed",
+    "quantization_compile_status": "failed before a saved model or allocation report was generated",
+    "maximum_permitted_quantization_compile_invocations": 1,
+    "completed_quantization_compile_invocations": 1,
+    "saved_model_status": "not generated",
+    "allocation_status": "not reached",
+    "calibration_tensor_count": 35,
+    "confidence_threshold": 0.25,
+    "iou_threshold": 0.45,
+    "prohibited_recovery_actions": [
+      "threshold reduction",
+      "observer sweep",
+      "second compiler variant",
+      "decoded-tail retry",
+      "CPU neural-network runtime",
+      "firmware integration after a failed gate"
+    ]
+  },
+  "prior_decoded_qat_rejection": {
+    "manifest_path": "workspace/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full320_qat_handoff.json",
+    "manifest_bytes": 20769,
+    "manifest_sha256": "57ced2c0548ad1e912d9d898d3105913c0f2e856d4ba3f1e995e4c3c5c7f4b8f",
+    "status": "preserved immutable rejection evidence"
+  },
+  "deployment_gate": {
+    "status": "rejected-current-pinned-ruhmi-frontend-crash",
+    "fp32_status": "qualified",
+    "firmware_backend_status": "replacement-model-pending",
+    "board_deployment_status": "not attempted",
+    "recommendation": "do not run a second compiler variant or integrate firmware; retain the FP32-qualified graph for a separately reviewed compiler/toolchain or ABI decision"
+  }
+}

@@ -1,0 +1,36 @@
+#ifndef APP_CONFIG_H
+#define APP_CONFIG_H
+
+#define CAMERA_FRAME_WIDTH          640U
+#define CAMERA_FRAME_HEIGHT         480U
+#define CAMERA_FRAME_STRIDE         (CAMERA_FRAME_WIDTH * 2U)
+#define CAMERA_CAPTURE_TIMEOUT_MS   500U
+
+#define MODEL_INPUT_WIDTH           320U
+#define MODEL_INPUT_HEIGHT          320U
+#define MODEL_INPUT_CHANNELS        3U
+#define MODEL_SCORE_THRESHOLD       0.45f
+
+#define TILE_WIDTH                  320U
+#define TILE_HEIGHT                 320U
+#define TILE_OVERLAP                64U
+#define TILE_MAX_LOCAL_DETECTIONS   32U
+#define APP_MAX_DETECTIONS          256U
+#define GLOBAL_NMS_IOU_THRESHOLD    0.45f
+
+#define IMAGE_DARK_MEAN_LIMIT       45.0f
+#define IMAGE_BRIGHT_MEAN_LIMIT     210.0f
+#define IMAGE_DARK_PIXEL_RATIO_MAX  0.35f
+#define IMAGE_BRIGHT_PIXEL_RATIO_MAX 0.25f
+#define IMAGE_SHARPNESS_MIN         90.0f
+
+#define LIGHT_FILTER_SAMPLES        9U
+#define LIGHT_ADC_DARK_CAL          3900U
+#define LIGHT_ADC_BRIGHT_CAL        300U
+#define LIGHT_ACCEPT_MIN_PERCENT    20U
+#define LIGHT_ACCEPT_MAX_PERCENT    85U
+
+#define ESP_FRAME_MAX_PAYLOAD       384U
+#define ESP_ACK_TIMEOUT_MS          800U
+
+#endif

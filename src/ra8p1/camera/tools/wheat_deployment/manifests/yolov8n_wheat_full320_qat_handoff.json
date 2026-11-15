@@ -1,0 +1,550 @@
+{
+  "class_names": [
+    "wheat_head"
+  ],
+  "combined_reference_model": {
+    "artifact_role": "combined-output FP32 parity reference; not the RUHMI input",
+    "bytes": 12112301,
+    "file_name": "model_combined_fp32.onnx",
+    "relative_path": "models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_combined_fp32.onnx",
+    "sha256": "a59903d06fb9bd8f7e1a69b755edd00bcca7018a0736f91a54fdb232dd0971d2"
+  },
+  "deployment_gate": {
+    "board_deployment_status": "not attempted",
+    "firmware_backend_status": "replacement-model-pending",
+    "recommendation": "rejected; do not tune the threshold, run another compiler variant, substitute CPU deployment, or integrate this model into firmware",
+    "ruhmi_conversion_status": "completed once; rejected by saved-model fixed-golden validation",
+    "status": "rejected"
+  },
+  "derivation": {
+    "combined_terminal_node": {
+      "axis": 1,
+      "inputs": [
+        "/model.22/Mul_2_output_0",
+        "/model.22/Sigmoid_output_0"
+      ],
+      "name": "/model.22/Concat_5",
+      "op_type": "Concat",
+      "output": "output0"
+    },
+    "initializers_byte_identical": true,
+    "logical_output_assembly": "np.concatenate([boxes, scores], axis=1)",
+    "network_calculations_changed": false,
+    "non_packaging_nodes_byte_identical": true,
+    "split_identity_nodes": [
+      {
+        "input": "/model.22/Mul_2_output_0",
+        "name": "handoff_boxes",
+        "output": "boxes"
+      },
+      {
+        "input": "/model.22/Sigmoid_output_0",
+        "name": "handoff_scores",
+        "output": "scores"
+      }
+    ]
+  },
+  "handoff_artifacts": {
+    "model_and_reports/best.pt": {
+      "bytes": 6224356,
+      "sha256": "223abbd7cb4b0f88cf9b71edf6df32fb42960a2be8dcb263ee5e3eaf48ec4792"
+    },
+    "model_and_reports/best_qat_with_observers.pt": {
+      "bytes": 6580963,
+      "sha256": "56118277fb46f0b1ceb657a5b4af3d6f740aca1bb0f01ac1f177490c01a1dbab"
+    },
+    "model_and_reports/dataset.yaml": {
+      "bytes": 181,
+      "sha256": "24b35870d60b6760867e0ac0bc0c815237cae71ce91ec63c1c7e16025014e444"
+    },
+    "model_and_reports/dataset_manifest.csv": {
+      "bytes": 902063,
+      "sha256": "76f5293e7a7d93d18d0facfae59f3fdf946c288aae800aef5e104600ee54a414"
+    },
+    "model_and_reports/fp32_validation/F1_curve.png": {
+      "bytes": 108632,
+      "sha256": "d49f73799397c6eb4965a628ebc205cd8af6a244650b4234e88a74cc8f345521"
+    },
+    "model_and_reports/fp32_validation/PR_curve.png": {
+      "bytes": 93763,
+      "sha256": "7f9ff36e6c954715f651709eb55d1ae89ed20186dac274f9ba453301893f5a19"
+    },
+    "model_and_reports/fp32_validation/P_curve.png": {
+      "bytes": 97313,
+      "sha256": "8dc91b6dcc8c43075062d8b7758156f7f1e8c39caa2db23220f75abba5861480"
+    },
+    "model_and_reports/fp32_validation/R_curve.png": {
+      "bytes": 101930,
+      "sha256": "d53503061b4b8519fd8162c3fef54717b95a80a8fc0f700a5aedae528b348083"
+    },
+    "model_and_reports/fp32_validation/confusion_matrix.png": {
+      "bytes": 100402,
+      "sha256": "123df552fceb2aeb351ba3f31d3d89941916c25ac3c2705655efa32417fdfd2d"
+    },
+    "model_and_reports/fp32_validation/confusion_matrix_normalized.png": {
+      "bytes": 92765,
+      "sha256": "c8ce90b2ccbdfb8fc223c7716aba7a328cd68d3c6f27177562fe5679f46c3c69"
+    },
+    "model_and_reports/fp32_validation/val_batch0_labels.jpg": {
+      "bytes": 769639,
+      "sha256": "031b1e1a95398e06a6502eff7d6ae41003a5056c8376daabfe763c39be85d765"
+    },
+    "model_and_reports/fp32_validation/val_batch0_pred.jpg": {
+      "bytes": 756620,
+      "sha256": "974f2b2962a840dd1af6689ceaa059bce034ae2878c26cf6cfd0448d5f92fa58"
+    },
+    "model_and_reports/fp32_validation/val_batch1_labels.jpg": {
+      "bytes": 777769,
+      "sha256": "1c6aacf3856b685e887633634b6f5efbefcfab5fa6a58214f1e6cf5730a42632"
+    },
+    "model_and_reports/fp32_validation/val_batch1_pred.jpg": {
+      "bytes": 759451,
+      "sha256": "a89a1e956ac5e49cc4507bff2e0e8de9a3028960225a26610a7b85c926c826b5"
+    },
+    "model_and_reports/fp32_validation/val_batch2_labels.jpg": {
+      "bytes": 750279,
+      "sha256": "1ea1c8efb72c4040164a258ef4423a6fdf3fe05e2272ab234949c9094efb840d"
+    },
+    "model_and_reports/fp32_validation/val_batch2_pred.jpg": {
+      "bytes": 744408,
+      "sha256": "e7af3b8ad2b0c907de6e37ea12dd56505b2091360813277aeaa3ddec7e7ae4be"
+    },
+    "model_and_reports/model_combined_fp32.onnx": {
+      "bytes": 12112301,
+      "sha256": "a59903d06fb9bd8f7e1a69b755edd00bcca7018a0736f91a54fdb232dd0971d2"
+    },
+    "model_and_reports/model_split_fp32.onnx": {
+      "bytes": 12112348,
+      "sha256": "4a27181d09b11701af4b83a286ed4e0505a34a467630aecb21848a1958d1d88c"
+    },
+    "model_and_reports/provenance_and_fp32_report.json": {
+      "bytes": 8881,
+      "sha256": "05e9bdcb645557b50ae9839628aa8a64c6a9697db4192b351c0eb5d6632ee05e"
+    },
+    "model_and_reports/results.csv": {
+      "bytes": 2699,
+      "sha256": "1df6170432ba7d621534b44a9fe439a02ef9df89ef7992e45dc82f63821e509c"
+    },
+    "model_and_reports/training_args.yaml": {
+      "bytes": 1960,
+      "sha256": "e93bb63bb5a4d627973367c4709cd52c2760afe613e317d5258a1c0c2276da29"
+    },
+    "model_and_reports/training_results.png": {
+      "bytes": 373602,
+      "sha256": "9850bfd154da88578bc217ddfb15b8dccc01eebfcbcd89f940f7d49662b8aa24"
+    },
+    "reproducibility/QAT_\u8bad\u7ec3\u4e0e\u4ea4\u63a5\u8bf4\u660e.md": {
+      "bytes": 2813,
+      "sha256": "00be0c1043ec6847df80c185bbe27708c3fedae10031336d5649d31a36badbee"
+    },
+    "reproducibility/qat_hardened_train.py": {
+      "bytes": 28800,
+      "sha256": "5000432a3721430e4898907580015ff5d6d25b06528397d71f4cfc7b6154b90c"
+    },
+    "reproducibility/smoke_report.json": {
+      "bytes": 6069,
+      "sha256": "d3caa057ee2800048503e83f134df8bf7611b93fd1df75725abe22524ce30833"
+    }
+  },
+  "independent_host_verification": {
+    "environment": {
+      "numpy": "2.1.1",
+      "onnx": "1.17.0",
+      "onnxruntime": "1.21.1",
+      "provider": "CPUExecutionProvider",
+      "python": "3.10.16",
+      "python_executable": "E:/Anaconda/anaconda_install_way/envs/yolo/python.exe"
+    },
+    "fixed_golden": {
+      "all_outputs_finite": true,
+      "boxes_tensor_sha256": "718ce47c819c758eb9180299a65c1c0661edc3e914637d3ceda7c17ae13dcf37",
+      "candidate_metrics": {
+        "above_threshold": 245,
+        "geometry_rejected": 0,
+        "nonfinite_rejected": 0,
+        "pool_capacity": 300,
+        "pool_overflow": 0,
+        "pool_retained": 245,
+        "scanned": 2100,
+        "valid_geometry": 245
+      },
+      "combined_tensor_sha256": "962847850dcd9b5bb8707846a9595bec0742eb5f63d6e8124d7956760a25af04",
+      "evidence_boundary": "existing project golden input independently re-run against this handoff; the input is retained outside Git and was not supplied inside the handoff",
+      "exact_split_parity": true,
+      "input_file_sha256": "32d8bf4839fdbb645bdc4bc06300c6d77a6b648698fd24fb936e3c1926c4af3a",
+      "input_path": "output/ruhmi_yolov8n_320/golden_fp32_00/input_fp32.npy",
+      "input_tensor_sha256": "767804b5df07a50b48b1bc2f0dec26b1d5706a458ac68c8159b9eceb953785ca",
+      "max_abs_split_difference": 0.0,
+      "nms_detections_at_0_25_iou_0_45": 32,
+      "reassembled_tensor_sha256": "962847850dcd9b5bb8707846a9595bec0742eb5f63d6e8124d7956760a25af04",
+      "score_max": 0.7145407795906067,
+      "scores_tensor_sha256": "5bc04a1fd395226c8e7895cbce29c93fd2593af804c68b05f42f24a097f8d5f4",
+      "status": "passed"
+    },
+    "synthetic_parity": {
+      "deterministic_input_count": 3,
+      "every_output_finite": true,
+      "every_split_reassembly_bitwise_equal": true,
+      "maximum_absolute_difference": 0.0
+    }
+  },
+  "input": {
+    "color_order": "RGB",
+    "dtype": "float32",
+    "dynamic_axes": false,
+    "layout": "NCHW",
+    "name": "images",
+    "normalization": "uint8 / 255.0",
+    "shape": [
+      1,
+      3,
+      320,
+      320
+    ]
+  },
+  "intake": {
+    "audited_on": "2026-08-09",
+    "fp32_static_contract_status": "qualified",
+    "handoff_path": "models/QAT_YOLOv8n_320_handoff_20260809",
+    "immutable_handoff_status": "qualified",
+    "self_contained_fixed_golden_status": "missing; provenance report explicitly labels its validation image as smoke-only and the referenced tensor/image is not supplied",
+    "status": "rejected_after_single_pinned_ruhmi_gate"
+  },
+  "logical_decoder_output": {
+    "channels": [
+      "center_x",
+      "center_y",
+      "width",
+      "height",
+      "wheat_head_confidence"
+    ],
+    "dtype": "float32",
+    "shape": [
+      1,
+      5,
+      2100
+    ]
+  },
+  "model_id": "teammate-yolov8n-wheat-full320-qat-hardened-fp32-split-v1",
+  "onnx": {
+    "checker": "passed with full_check for combined and split models",
+    "constant_attribute_dtypes": {
+      "FLOAT": 6,
+      "INT64": 16
+    },
+    "embedded_nms": false,
+    "fp16_present": false,
+    "initializer_count": 127,
+    "initializer_dtypes": {
+      "FLOAT": 127
+    },
+    "initializer_elements": 3005843,
+    "ir_version": 7,
+    "node_count": 262,
+    "operator_counts": {
+      "Add": 9,
+      "Concat": 18,
+      "Constant": 22,
+      "Conv": 64,
+      "Div": 2,
+      "Gather": 1,
+      "Identity": 2,
+      "MaxPool": 3,
+      "Mul": 60,
+      "Reshape": 5,
+      "Resize": 2,
+      "Shape": 1,
+      "Sigmoid": 58,
+      "Slice": 2,
+      "Softmax": 1,
+      "Split": 9,
+      "Sub": 2,
+      "Transpose": 1
+    },
+    "opsets": {
+      "ai.onnx": 13
+    },
+    "producer_name": "pytorch",
+    "producer_version": "2.6.0",
+    "split_output_is_combined_tensor": false,
+    "ultralytics_version": "8.3.111"
+  },
+  "outputs": [
+    {
+      "candidate_count": 2100,
+      "channels": [
+        "center_x",
+        "center_y",
+        "width",
+        "height"
+      ],
+      "dtype": "float32",
+      "embedded_nms": false,
+      "name": "boxes",
+      "shape": [
+        1,
+        4,
+        2100
+      ]
+    },
+    {
+      "candidate_count": 2100,
+      "channels": [
+        "wheat_head_confidence"
+      ],
+      "dtype": "float32",
+      "embedded_nms": false,
+      "extra_sigmoid_required": false,
+      "name": "scores",
+      "shape": [
+        1,
+        1,
+        2100
+      ]
+    }
+  ],
+  "postprocessing": {
+    "candidate_capacity": 300,
+    "confidence_threshold": 0.25,
+    "coordinate_format": "anchor-free xywh",
+    "global_nms": true,
+    "iou_threshold": 0.45,
+    "result_capacity": 64,
+    "result_overflow_policy": "invalidate_result"
+  },
+  "report_audit": {
+    "current_provenance_report_hashes_match_artifacts": true,
+    "handoff_claimed_validation": {
+      "candidate_count_at_0_25": 335,
+      "independently_reproducible_from_handoff": false,
+      "nms_count_at_0_25_iou_0_45": 44,
+      "score_max": 0.7513691782951355,
+      "status": "claim only; the referenced validation JPEG/tensor is absent"
+    },
+    "smoke_report": {
+      "claimed_combined_onnx_sha256": "ca177fee677295b94cbb7b09d1c1373de304f385c97cb0999109840954659fd2",
+      "claimed_split_onnx_sha256": "7dff9eff127d98a1249a9a06b8057d905888fa8b927758df152cf7299935e1bc",
+      "current_artifacts_match": false,
+      "status": "stale export smoke report; not evidence for the delivered ONNX files"
+    }
+  },
+  "ruhmi_evidence": {
+    "calibration": {
+      "calibration_data": "output/ruhmi_yolov8n_320/calibration_fp32",
+      "calibration_index_sha256": "3813056aa11a51d851edc7d899509dacf40355f40011d20ce0713f824e333769",
+      "source_manifest_sha256": "f5da5174e23ba4bb15c104f157c81ec70d7e3872631171f6c98041f07896147a",
+      "tensor_count": 35
+    },
+    "compiler": {
+      "command": "python mcu_compile.py models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_split_fp32.onnx output/ruhmi_yolov8n_320_qat/compiler_split_outputs --npu --quantize --calib-data output/ruhmi_yolov8n_320/calibration_fp32 --calib-num 35 --memory-threshold 64 --ref-data",
+      "exit_code": 0,
+      "log_bytes": 142676,
+      "log_path": "output/ruhmi_yolov8n_320_qat/compiler_split_outputs.log",
+      "log_sha256": "43c405ba110c34b335028086009aee51e7f8a50133490cc31ad78091029299fe",
+      "memory_threshold": 64,
+      "mera": "2.6.0+pkg.4815",
+      "renesas_source_tag": "Release-2026-06-19",
+      "vela": "4.2.0"
+    },
+    "operator_allocation": {
+      "accelerator_configuration": "Ethos_U55_256",
+      "c_codegen_regions": 4,
+      "ethos_u55_regions": 3,
+      "vela_regions": [
+        {
+          "cpu_operators": 0,
+          "flash_kib": 1171.42,
+          "npu_operators": 156,
+          "sram_kib": 800.0
+        },
+        {
+          "cpu_operators": 0,
+          "flash_kib": 139.59,
+          "npu_operators": 27,
+          "sram_kib": 300.0
+        },
+        {
+          "cpu_operators": 0,
+          "flash_kib": 1445.11,
+          "npu_operators": 190,
+          "sram_kib": 2627.06
+        }
+      ]
+    },
+    "quantization_quality": {
+      "boxes": {
+        "fp32_max": 317.264,
+        "psnr": 7.612,
+        "quantized_max": 59.74,
+        "score": 82.669
+      },
+      "critical_collapse": {
+        "node": "_model_22_Div_1_output_0_70464",
+        "fp32_max": 39.658,
+        "fp32_min": 0.304,
+        "psnr": 5.518,
+        "quantized_max": 0.0,
+        "quantized_min": 0.0
+      },
+      "scores": {
+        "fp32_max": 0.735,
+        "psnr": 12.725,
+        "quantized_max": 0.565,
+        "score": 94.661
+      }
+    },
+    "root_cause_assessment": {
+      "candidate_comparison": "all 11 saved-model scores at or above 0.25 have center_x=center_y=0 while widths and heights remain approximately 12..30; the same candidate indices have normal FP32 centers",
+      "classification": "QAT activation coverage gap in the decoded detection tail allowed MERA static quantization to collapse terminal coordinate arithmetic",
+      "evidence": [
+        "the training script attaches activation fake quant only to Ultralytics Conv blocks and bare Conv2d outputs",
+        "terminal DFL/dist2bbox Div, Add, Sub, Concat, and Mul functional operations are not fake-quantized during training",
+        "the compiler report shows _model_22_Div_1 changing from FP32 0.304..39.658 to quantized 0.0..0.0",
+        "MERA io_desc preserves output order as boxes [1,4,2100] followed by scores [1,1,2100], excluding an output-order decoding error"
+      ],
+      "io_desc_path": "output/ruhmi_yolov8n_320_qat/interpreter_saved_mera_golden_verified/deployment/build/MERAInterpreter/io_desc.json",
+      "io_desc_sha256": "10b941a4782eb6804ee792f561d9068082717d7f4b1259f89c5589ded41f7409",
+      "training_script_sha256": "5000432a3721430e4898907580015ff5d6d25b06528397d71f4cfc7b6154b90c"
+    },
+    "saved_model": {
+      "bytes": 3689080,
+      "path": "output/ruhmi_yolov8n_320_qat/compiler_split_outputs/model_split_fp32_NPU_quantized/quantization/model.mera",
+      "sha256": "92d68a0dcde30be55862fda7bb0fb261a56009bc253304c11f468f46f9ed8f4b"
+    },
+    "saved_model_fixed_golden": {
+      "accepted_for_firmware_integration": false,
+      "boxes": {
+        "maximum": 84.63223266601562,
+        "shape": [
+          1,
+          4,
+          2100
+        ],
+        "tensor_sha256": "623e4652bdd962460a0f7d00cdc96c4ea73647a86349dec71d98453c27ce85d8"
+      },
+      "first_interpreter_run_note": "inference completed, then result reporting used an unsupported get_output_names API; a second fresh load produced the retained verified result below",
+      "loader": "ModelLoader.from_quantized_mera",
+      "logical_output_sha256": "f28aba52b02ead97513ff3b76124c9f33c87971aa10f9d18b4a1353287a249fa",
+      "postprocess": {
+        "above_threshold": 11,
+        "geometry_rejected": 11,
+        "nms_detections": 0,
+        "pool_retained": 0,
+        "valid_geometry": 0
+      },
+      "rejection_cause": "all 11 above-threshold candidates have zero decoded xy centers after the critical Div collapse, leaving no valid geometry and no NMS detections",
+      "result_json_path": "output/ruhmi_yolov8n_320_qat/interpreter_saved_mera_golden_verified/saved_mera_golden_result.json",
+      "result_json_sha256": "93de41e349df4fb8ffa36eb6104877ee9fb1230d9b673c7badb52e3117bc4bfe",
+      "score_max": 0.36786559224128723,
+      "scores": {
+        "shape": [
+          1,
+          1,
+          2100
+        ],
+        "tensor_sha256": "7882564a446352fe6d0d4741da4fd53240d4595327a6e10f89376d1a59cbf560"
+      },
+      "status": "rejected"
+    },
+    "status": "rejected"
+  },
+  "schema_version": 1,
+  "source_model": {
+    "artifact_role": "QAT-hardened fixed FP32 split-output input for the pinned MERA static quantizer",
+    "bytes": 12112348,
+    "file_name": "model_split_fp32.onnx",
+    "relative_path": "models/QAT_YOLOv8n_320_handoff_20260809/model_and_reports/model_split_fp32.onnx",
+    "sha256": "4a27181d09b11701af4b83a286ed4e0505a34a467630aecb21848a1958d1d88c"
+  },
+  "source_preprocessing": {
+    "camera_format": "RGB565-BE",
+    "camera_shape": [
+      480,
+      640
+    ],
+    "letterbox_bottom_rows": 40,
+    "letterbox_top_rows": 40,
+    "padding_rgb": [
+      114,
+      114,
+      114
+    ],
+    "resize": "640x480 to 320x240 using the frozen host/firmware full320 contract"
+  },
+  "training_provenance": {
+    "base_checkpoint": {
+      "bytes": 6240420,
+      "local_hash_verified": true,
+      "relative_path": "models/wheat_yolov8n_320/weights/best.pt",
+      "sha256": "97beeb3772fd71539d4d62544faa99163ac1e7f3c0efec2cb51c8385813ce4c8"
+    },
+    "checkpoints": {
+      "best.pt": {
+        "sha256": "223abbd7cb4b0f88cf9b71edf6df32fb42960a2be8dcb263ee5e3eaf48ec4792",
+        "unsafe_pickle_globals": 15
+      },
+      "best_qat_with_observers.pt": {
+        "portability_note": "contains __main__.QATConv2d and __main__._activation_hook globals; audit-only checkpoint",
+        "sha256": "56118277fb46f0b1ceb657a5b4af3d6f740aca1bb0f01ac1f177490c01a1dbab",
+        "unsafe_pickle_globals": 19
+      },
+      "execution_status": "not used as independent evidence; pickle globals were enumerated without loading, and ONNX Runtime verified the deployment artifact"
+    },
+    "dataset": {
+      "aggregate_sha256": "d2c4d7dac7f2c91a0f3a75358e76c05215be22037a1b40d91a91f7200299a627",
+      "class_identity": "wheat_head",
+      "dataset_manifest_file_sha256": "76f5293e7a7d93d18d0facfae59f3fdf946c288aae800aef5e104600ee54a414",
+      "dataset_yaml_sha256": "24b35870d60b6760867e0ac0bc0c815237cae71ce91ec63c1c7e16025014e444",
+      "generated_content_rehash_status": "not possible; the materialized training JPEG/label tree is absent locally, so row content hashes remain teammate-generated evidence",
+      "membership_audit": "all 3422 unique manifest identities map one-to-one to the seven local annotated GWHD source domains",
+      "split_counts": {
+        "test": 348,
+        "train": 2735,
+        "val": 339
+      },
+      "split_disjoint": true
+    },
+    "materialized_validation_claim": {
+      "fitness": 0.5474074799785922,
+      "map50": 0.9178262553969819,
+      "map50_95": 0.5062498382654377,
+      "precision": 0.9093733014130193,
+      "recall": 0.8436960587845875,
+      "status": "teammate-run report; validation was not re-run during intake"
+    },
+    "qat_configuration": {
+      "activation_fake_quantizers": 64,
+      "activations": "signed symmetric per-tensor INT8 range [-127,127]",
+      "batch": 16,
+      "batchnorm_statistics": "enabled epochs 1-10, frozen from epoch 11",
+      "epochs": 20,
+      "fake_quant": "enabled for all epochs",
+      "framework": "torch.ao.quantization",
+      "framework_version": "2.6.0+cu126",
+      "observer": "MovingAverage observers, averaging_constant=0.01",
+      "observers": "enabled epochs 1-5, frozen from epoch 6",
+      "optimizer": "AdamW, lr0=0.0001, lrf=0.1, cosine",
+      "seed": 42,
+      "weight_fake_quantizers": 64,
+      "weights": "signed symmetric per-output-channel INT8 range [-127,127]"
+    },
+    "recorded_training_results": {
+      "best_epoch_by_recorded_fitness": 16,
+      "best_fitness": 0.54139,
+      "best_map50": 0.91462,
+      "best_map50_95": 0.49992,
+      "best_precision": 0.90851,
+      "best_recall": 0.84027,
+      "epochs": 20,
+      "results_csv_sha256": "1df6170432ba7d621534b44a9fe439a02ef9df89ef7992e45dc82f63821e509c"
+    },
+    "remaining_gaps": [
+      "the original upstream yolov8n.pt hash is not supplied",
+      "the materialized training JPEG/label tree cannot be rehashed against dataset_manifest.csv",
+      "training and validation metrics were not independently reproduced",
+      "the handoff does not contain the fixed golden tensor used by this project's host gate"
+    ],
+    "reproducibility_script_sha256": "5000432a3721430e4898907580015ff5d6d25b06528397d71f4cfc7b6154b90c",
+    "status": "configuration, identities, membership, and logs are traceable; accuracy remains teammate-run evidence"
+  }
+}
