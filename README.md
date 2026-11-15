@@ -6,10 +6,10 @@
 
 ## 🎬 项目展示 | Demo & Materials
 
-- [📄 完整技术报告](./materials/ra8p1/技术报告.pdf)
-- [📋 作品简介](./materials/ra8p1/作品简介.pdf)
-- [📊 项目答辩 PPT](./materials/ra8p1/项目答辩.pptx)
-- [💻 项目源码与模块导航](./src/ra8p1/README.md)
+- [📄 完整技术报告](./技术文档.pdf)
+- [📋 作品简介](./作品简介.pdf)
+- [📊 项目答辩 PPT](./项目答辩.pptx)
+- [💻 项目源码与模块导航](./src/README.md)
 
 本地材料包含报告、演示文稿、设备图片和工程源码。具体功能完成情况以对应版本的工程与实测记录为准。
 
@@ -45,7 +45,7 @@ OV5640 → RA8P1 / Cortex-M85
 HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 ```
 
-![系统组成方案](./images/ra8p1/system_architecture.png)
+![系统组成方案](./images/system_architecture.png)
 
 **系统组成方案。** 
 
@@ -53,25 +53,25 @@ HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 
 | 模块 | 代码中的主要实现 | 源码 |
 |---|---|---|
-| 产品主工程 | 初始化、外设服务与协作式调度 | [camera](./src/ra8p1/camera/) / [app.c](./src/ra8p1/camera/src/app.c) |
-| 摄像头采集 | OV5640、CEU、帧缓冲管理 | [camera_capture.c](./src/ra8p1/camera/src/camera_capture.c) |
-| 模型推理 | RUHMI / Ethos-U55 后端与模型存储 | [wheat_ai_backend.c](./src/ra8p1/camera/src/wheat_ai_backend.c) |
-| 图像预处理 | 图像输入与分块预处理 | [wheat_preprocess.c](./src/ra8p1/camera/src/wheat_preprocess.c) |
-| 检测后处理 | YOLOX 解码、检测框恢复与筛选 | [wheat_yolox_decode.c](./src/ra8p1/camera/src/wheat_yolox_decode.c) / [wheat_postprocess.c](./src/ra8p1/camera/src/wheat_postprocess.c) |
-| 模型部署工具 | 主机侧模型转换、量化与数值检查 | [wheat_deployment](./src/ra8p1/camera/tools/wheat_deployment/) |
-| 环境采集 | DHT11、光照与环境服务 | [environment_service.c](./src/ra8p1/camera/src/environment_service.c) |
-| 网页与联网 | ESP AT、HTTP / WebSocket、网页资产 | [web_ui_page.inc](./src/ra8p1/camera/src/web_ui_page.inc) |
-| 数据存储 | SD、记录队列与恢复服务 | [storage_service.c](./src/ra8p1/camera/src/storage_service.c) |
-| 串口屏 | HMI 工程、字体和素材 | [hmi](./src/ra8p1/hmi/) |
-| 报告核心代码 | C99 附录程序与板级适配接口 | [report_core](./src/ra8p1/report_core/) |
+| 产品主工程 | 初始化、外设服务与协作式调度 | [camera](./src/camera/) / [app.c](./src/camera/src/app.c) |
+| 摄像头采集 | OV5640、CEU、帧缓冲管理 | [camera_capture.c](./src/camera/src/camera_capture.c) |
+| 模型推理 | RUHMI / Ethos-U55 后端与模型存储 | [wheat_ai_backend.c](./src/camera/src/wheat_ai_backend.c) |
+| 图像预处理 | 图像输入与分块预处理 | [wheat_preprocess.c](./src/camera/src/wheat_preprocess.c) |
+| 检测后处理 | YOLOX 解码、检测框恢复与筛选 | [wheat_yolox_decode.c](./src/camera/src/wheat_yolox_decode.c) / [wheat_postprocess.c](./src/camera/src/wheat_postprocess.c) |
+| 模型部署工具 | 主机侧模型转换、量化与数值检查 | [wheat_deployment](./src/camera/tools/wheat_deployment/) |
+| 环境采集 | DHT11、光照与环境服务 | [environment_service.c](./src/camera/src/environment_service.c) |
+| 网页与联网 | ESP AT、HTTP / WebSocket、网页资产 | [web_ui_page.inc](./src/camera/src/web_ui_page.inc) |
+| 数据存储 | SD、记录队列与恢复服务 | [storage_service.c](./src/camera/src/storage_service.c) |
+| 串口屏 | HMI 工程、字体和素材 | [hmi](./src/hmi/) |
+| 报告核心代码 | C99 附录程序与板级适配接口 | [report_core](./src/report_core/) |
 
-**已有测试入口：** [主机测试目录](./src/ra8p1/camera/tests/) · [模型部署测试脚本](./src/ra8p1/camera/tests/run_wheat_host_tests.ps1)。
+**已有测试入口：** [主机测试目录](./src/camera/tests/) · [模型部署测试脚本](./src/camera/tests/run_wheat_host_tests.ps1)。
 
 ### 视觉模型
 
-![YOLOX-Tiny网络结构](./images/ra8p1/yolox_architecture.png)
+![YOLOX-Tiny网络结构](./images/yolox_architecture.png)
 
-![YOLOX-Tiny检测头](./images/ra8p1/yolox_head.png)
+![YOLOX-Tiny检测头](./images/yolox_head.png)
 
 **YOLOX-Tiny 网络与检测头结构。** 项目围绕密集小目标采用重叠分块、坐标回映射与全局去重的处理路线。
 
@@ -79,17 +79,12 @@ HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 
 ```text
 .
-├─ README.md                 项目展示与导航
-├─ src/ra8p1/
-│  ├─ camera/                产品主工程快照
-│  ├─ hmi/                   串口屏、字体与素材
-│  ├─ report_core/           报告附录核心代码
-│  └─ README.md              模块与工程说明
-├─ images/ra8p1/             设备与硬件展示图
-├─ materials/ra8p1/          最终报告、简介、答辩与本地固件
-├─ docs/                     运行、版本、图片来源与最终协议
-├─ tools/                    整理与完整性核对工具
-└─ archive/                  原始材料及此前整理副本，本地保留
+├─ images/                   PPT 展示图片
+├─ src/                      产品源码、模型工具与串口屏工程
+├─ README.md                 项目介绍
+├─ 技术文档.pdf               完整技术报告
+├─ 作品简介.pdf               参赛作品简介
+└─ 项目答辩.pptx              答辩演示文稿
 ```
 
 ## 3. 个人贡献 | My Contributions
@@ -105,13 +100,13 @@ HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 
 ### 4.1 整机实物 | Robot Prototype
 
-![小麦巡检系统整机](./images/ra8p1/robot_overview.png)
+![小麦巡检系统整机](./images/robot_overview.png)
 
 **图 1. 小麦巡检系统整机。** 展示麦轮底盘、立式支架与横向采样单元。
 
 ### 4.2 田间场景 | Field Scene
 
-![田间移动平台](./images/ra8p1/field_robot.png)
+![田间移动平台](./images/field_robot.png)
 
 **图 2. 小麦田间场景。** 
 
@@ -119,15 +114,15 @@ HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 
 | 麦克纳姆轮底盘 | RA8P1 核心控制板 |
 |---|---|
-| ![麦轮底盘](./images/ra8p1/chassis.png) | ![RA8P1核心板](./images/ra8p1/ra8p1_board.png) |
+| ![麦轮底盘](./images/chassis.png) | ![RA8P1核心板](./images/ra8p1_board.png) |
 
 **图 3. 底盘与控制板。**
 
 ### 4.4 人机交互 | Human-Machine Interface
 
-![串口屏](./images/ra8p1/hmi.png)
+![串口屏](./images/hmi.png)
 
-**图 4. 串口屏展示。** 页面工程和板端协议联调分别记录，详见 [最终通信协议](./docs/ra8p1/hmi/WHEAT_串口屏最终通信协议_20260819.md)。
+**图 4. 串口屏展示。** 页面工程和板端协议联调分别记录，详见 [最终通信协议](./src/hmi/通信协议.md)。
 
 ### 4.5 验证状态 | Verification Status
 
@@ -141,10 +136,10 @@ HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
 
 ## 5. 环境与运行 | Setup & Usage
 
-- [环境与运行指引](./docs/SETUP.md)：工程入口、开发环境、HMI 与报告核心代码的适配前提。
-- [版本与验证说明](./docs/VERSION_STATUS.md)：实际快照、提交报告和后续协议的关系。
+- [环境与运行指引](./src/README.md#环境与运行)：工程入口、开发环境、HMI 与报告核心代码的适配前提。
+- [版本与验证说明](./src/README.md#版本说明)：实际快照、提交报告和后续协议的关系。
 
-整理保留工程内部目录和业务代码。构建缓存、历史备份与原始压缩包留在本地归档。历史固件按其原始说明保留在本地，含潜在设备配置的文件默认不纳入 Git。
+工程内部目录与业务代码保持原样，开发调试文档和本地历史材料已归档。图片来源见 [图片索引](./images/README.md)。
 
 ## 6. 第三方依赖与致谢 | Third-Party Software
 
