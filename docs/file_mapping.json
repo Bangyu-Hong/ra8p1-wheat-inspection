@@ -1,55 +1,5 @@
 [
   {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/00_先看_交付总览.md",
-    "target": "docs/ra8p1/handover/00_先看_交付总览.md",
-    "sha256": "eb580577c31882425f6e4f3580b56ac9efc02d97e9b0adbc14d70a7917a4bdf4"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/01_项目总体方案与系统架构.md",
-    "target": "docs/ra8p1/handover/01_项目总体方案与系统架构.md",
-    "sha256": "dacdce7f0e8e2c44fb7b51f0dfccd0bc2e17c435dcd641a7290d2a518c485cf2"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/02_当前进度与验收状态.md",
-    "target": "docs/ra8p1/handover/02_当前进度与验收状态.md",
-    "sha256": "2cf6d773ebffc367dddd3ccbc8e28578e4db608cb25b875d958c6df74c82dbd1"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/03_网页上位机现状与优化清单.md",
-    "target": "docs/ra8p1/handover/03_网页上位机现状与优化清单.md",
-    "sha256": "d15ad96d6c4fc1599f3dc6fa396073f3f6cd4cb02118481764acbbb99abb36b2"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/04_底盘_JY61P_编码器_PID_交接方案.md",
-    "target": "docs/ra8p1/handover/04_底盘_JY61P_编码器_PID_交接方案.md",
-    "sha256": "cec26c38d323f749253a3979ce9e6304a52a5cc03b3f07b1d8b81d3bb2e5cc8d"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/06_开发原则与注意事项.md",
-    "target": "docs/ra8p1/handover/06_开发原则与注意事项.md",
-    "sha256": "9d0c5dee290f3f864eee24b9e8eb56ab7c07080a71950a748529d06cd7a39ad2"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/07_源码构建烧录与恢复指南.md",
-    "target": "docs/ra8p1/handover/07_源码构建烧录与恢复指南.md",
-    "sha256": "be42e49543e98d80a4d8f441f0bc875507434bf1c1aa793b0f9642be721b2193"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/08_源码与参考资料索引.md",
-    "target": "docs/ra8p1/handover/08_源码与参考资料索引.md",
-    "sha256": "9d1f3f258a44a35dd351da5dbdfb09b174713c514841ea8eb9e424b65b311511"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/09_队友任务拆分与验收清单.md",
-    "target": "docs/ra8p1/handover/09_队友任务拆分与验收清单.md",
-    "sha256": "39aad37101a73410dcc35935c20ee8b160337402494677e88ae8d53d3f040a44"
-  },
-  {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/10_已知问题与风险清单.md",
-    "target": "docs/ra8p1/handover/10_已知问题与风险清单.md",
-    "sha256": "6e23d2327b638d1f1a784d250020d7b216db2efcda73626fc62df35b662e12cf"
-  },
-  {
     "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/源码快照/camera_source_20260818.zip!camera/.api_xml",
     "target": "src/ra8p1/camera/.api_xml",
     "sha256": "c194efa4e0b6a396cd2bce3dff2bf6e1c7612b10f6aa8ccc8ee66455644b60be"
@@ -2390,11 +2340,6 @@
     "description": "YOLOX-Tiny检测头结构图"
   },
   {
-    "source": "国赛/RA8P1_智能小麦巡检_项目交付包_20260818(1).zip!RA8P1_智能小麦巡检_项目交付包_20260818/05_串口屏开发交接方案.md",
-    "target": "docs/ra8p1/handover/05_串口屏开发交接方案.md",
-    "sha256": "456e570f40f4650d19b941772489623505e113942d13de43697394dad34366ba"
-  },
-  {
     "source": "国赛/串口屏/WHEAT.HMI",
     "target": "src/ra8p1/hmi/WHEAT.HMI",
     "sha256": "64cf0919442d15d510c15be8235b39fa53fec734a7ff67779bfd061d78843df9"
@@ -2505,24 +2450,9 @@
     "sha256": "7ca65e1dcc3faff282ce01ba3745209a8d36bf0c76aeb9c0b2ac20583807722b"
   },
   {
-    "source": "国赛/串口屏/WHEAT_HMI串口通信手册.md",
-    "target": "docs/ra8p1/hmi/WHEAT_HMI串口通信手册.md",
-    "sha256": "28a9710b3ac5a5f45d4bdd724555deff39b6b57c7f00def35fd63f7f216630c6"
-  },
-  {
-    "source": "国赛/串口屏/WHEAT_P0按钮事件修复清单.md",
-    "target": "docs/ra8p1/hmi/WHEAT_P0按钮事件修复清单.md",
-    "sha256": "9c9d2d065ffd72818584c3c274b4631ca527ce0a3f1cf30cf319eac86e196464"
-  },
-  {
     "source": "国赛/串口屏/WHEAT_串口屏最终通信协议_20260819.md",
     "target": "docs/ra8p1/hmi/WHEAT_串口屏最终通信协议_20260819.md",
     "sha256": "ad05837700211c9205d945b915717deb48fc5172e2bf09505d78e017269deed5"
-  },
-  {
-    "source": "国赛/串口屏/WHEAT_小麦智能检测系统完整项目手册.md",
-    "target": "docs/ra8p1/hmi/WHEAT_小麦智能检测系统完整项目手册.md",
-    "sha256": "f60cdb94d216aab152fff120317bfd23000eea6bbaaa7f76bc8989837ae67e26"
   },
   {
     "source": "国赛/PPT/数智兴农_淡绿麦黄配色_小麦.pptx!ppt/media/image15.png",

@@ -34,11 +34,11 @@
 
 **整机实物照片，来自答辩 PPT 第 9 页。** 展示麦轮底盘、支架与横向采样单元；另见 [田间照片](../../images/ra8p1/field_robot.png)。当前配图全部选自 PPT，来源见 [图片索引](../../docs/IMAGE_SOURCES.md)。
 
-历史 [状态矩阵](../../docs/ra8p1/handover/02_当前进度与验收状态.md) 记录了 2026-08-18 快照中采集、LCD、推理链路与局域网网页的阶段结果，以及当时模型精度、SD、串口屏、底盘与滑轨的剩余工作。后续 PPT 照片与该源码记录对应不同时间点，本次未重新执行实机测试。
+保存的 2026-08-18 源码快照与后续 PPT 照片对应不同时间点，阶段结果与实现边界已概括在 [版本说明](../../docs/VERSION_STATUS.md) 中。本次未重新执行实机测试。
 
 ## 5. 环境与运行 | Setup & Usage
 
-以 [环境指引](../../docs/SETUP.md) 和 [构建恢复指南](../../docs/ra8p1/handover/07_源码构建烧录与恢复指南.md) 为入口。保留的历史固件在 [firmware](../../materials/ra8p1/firmware/)。
+以 [环境与运行指引](../../docs/SETUP.md) 为入口。保留的历史固件说明在 [firmware](../../materials/ra8p1/firmware/)。
 
 报告方案中的双核分工、OneNET、320 输入附录代码与实际 `camera` 的单核、局域网、tile224 路线存在版本区别，详见 [VERSION_STATUS.md](../../docs/VERSION_STATUS.md)。HMI 使用 [2026-08-19 最终协议](../../docs/ra8p1/hmi/WHEAT_串口屏最终通信协议_20260819.md)，需独立核对板端适配。
 

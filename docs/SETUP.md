@@ -16,7 +16,7 @@
 | 构建配置 | Release |
 | 输入路线 | OV5640、640×480 RGB565、YOLOX tile224 |
 
-具体构建与恢复步骤见 [原始指南](./ra8p1/handover/07_源码构建烧录与恢复指南.md)。本次未检查本机工具链是否满足这些版本。
+导入 `camera` 后，按表中版本配置工具链，选择 Release 构建。修改 `configuration.xml` 时通过 FSP 配置器重新生成内容，再运行工程现有配置检查并构建；使用对应板卡的 J-Link 配置烧录和验证。本次未检查本机工具链，也未重新构建或烧录。
 
 本地 Wi-Fi 文件 `camera/src/esp_at_credentials.h` 未放入整理副本，按 `esp_at_credentials.h.example` 或原工程配置工具生成；该文件被 Git 忽略。
 

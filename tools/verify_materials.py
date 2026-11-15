@@ -37,7 +37,7 @@ def main():
             continue
         if not p.is_file() or sha(p) != row['sha256']:
             failures.append('整理副本异常: ' + row['target'])
-    authored = ['README.md', 'docs/README.md', 'docs/SETUP.md', 'docs/VERSION_STATUS.md',
+    authored = ['README.md', 'docs/SETUP.md', 'docs/VERSION_STATUS.md',
                 'docs/IMAGE_SOURCES.md', 'src/ra8p1/README.md']
     checked_links = 0
     for relative in authored:

@@ -24,28 +24,10 @@
     "sha256": "64cf0919442d15d510c15be8235b39fa53fec734a7ff67779bfd061d78843df9"
   },
   {
-    "original_path": "国赛/串口屏/WHEAT_HMI串口通信手册.md",
-    "archive_path": "archive/originals/国赛/串口屏/WHEAT_HMI串口通信手册.md",
-    "bytes": 38150,
-    "sha256": "28a9710b3ac5a5f45d4bdd724555deff39b6b57c7f00def35fd63f7f216630c6"
-  },
-  {
-    "original_path": "国赛/串口屏/WHEAT_P0按钮事件修复清单.md",
-    "archive_path": "archive/originals/国赛/串口屏/WHEAT_P0按钮事件修复清单.md",
-    "bytes": 8347,
-    "sha256": "9c9d2d065ffd72818584c3c274b4631ca527ce0a3f1cf30cf319eac86e196464"
-  },
-  {
     "original_path": "国赛/串口屏/WHEAT_串口屏最终通信协议_20260819.md",
     "archive_path": "archive/originals/国赛/串口屏/WHEAT_串口屏最终通信协议_20260819.md",
     "bytes": 10112,
     "sha256": "ad05837700211c9205d945b915717deb48fc5172e2bf09505d78e017269deed5"
-  },
-  {
-    "original_path": "国赛/串口屏/WHEAT_小麦智能检测系统完整项目手册.md",
-    "archive_path": "archive/originals/国赛/串口屏/WHEAT_小麦智能检测系统完整项目手册.md",
-    "bytes": 29214,
-    "sha256": "f60cdb94d216aab152fff120317bfd23000eea6bbaaa7f76bc8989837ae67e26"
   },
   {
     "original_path": "国赛/串口屏/WHEAT字库字符补全.txt",

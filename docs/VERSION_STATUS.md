@@ -12,7 +12,7 @@
 
 ## 2. 产品快照（2026-08-18）
 
-以 [交付总览](./ra8p1/handover/00_先看_交付总览.md)、[状态矩阵](./ra8p1/handover/02_当前进度与验收状态.md) 和 `camera` 源码为定位依据。
+以下概括保存的 `camera` 源码与当时交付记录的版本边界。开发期交接和调试文档已移至本地归档。
 
 - 目标器件 `R7KA8P1KFLCAC`、CPU0 / Cortex-M85、FSP 6.5.0、GNU Arm Embedded 13.2.1。
 - 产品侧包含 OV5640、ST7796S、YOLOX/Ethos-U55、环境采集、ESP8266 局域网网页和 SD 链路。
