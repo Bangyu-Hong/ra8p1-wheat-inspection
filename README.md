@@ -1,246 +1,146 @@
-# 基于 RA8P1 的小麦麦穗智能计数与环境监测系统
+# 基于 RA8P1 的麦穗计数与环境监测系统
 
-**RA8P1 Wheat Inspection | Embedded Vision · Edge AI · YOLOX · Environmental Monitoring**
+**RA8P1 · Ethos-U55 · YOLOX-Tiny · INT8 · 嵌入式视觉**
 
-> 2026 年全国大学生电子设计竞赛信息科技前沿专题赛（瑞萨杯）决赛团队项目。
+2026 年全国大学生电子设计竞赛信息科技前沿专题赛（瑞萨杯）决赛团队项目。系统面向小麦样本与样方调查，通过摄像头采集图像，在 RA8P1 上进行麦穗检测、计数与结果显示，并提供温湿度、光照采集、局域网交互和 SD 数据记录模块。
 
-> **报告与实物差异说明：** 技术报告与最终搭建的实物存在差异。报告作为设计方案和参赛资料保留，不作为最终实物的完整实现说明，也不代表其中全部功能均已在实物中实现或验证。实物外观与搭建形式以答辩 PPT 中的实物照片为参考，具体功能和性能以对应版本的实机演示及测试记录为准。
+[技术报告](./技术文档.pdf) · [作品简介](./作品简介.pdf) · [答辩 PPT](./项目答辩.pptx) · [源码导航](./src/README.md)
 
-## 🎬 项目展示 | Demo & Materials
+## 1. 系统组成
 
-- [📄 技术报告（与最终实物存在差异）](./技术文档.pdf)
-- [📋 作品简介](./作品简介.pdf)
-- [📊 项目答辩 PPT](./项目答辩.pptx)
-- [💻 项目源码与模块导航](./src/README.md)
-
-本地材料包含报告、演示文稿、设备图片和工程源码。具体功能完成情况以对应版本的工程与实测记录为准。
-
-## 1. 项目概览 | Overview
-
-本项目面向小麦育种样本与标准样方调查，围绕麦穗计数、图像复核及环境信息记录，构建基于 **RA8P1 + OV5640 + Ethos-U55 + ESP8266** 的嵌入式视觉系统。
-
-项目涉及摄像头采集、YOLOX 分块推理、坐标恢复与全局去重、本地显示、温湿度与光照采集、局域网交互和 SD 存储。
-
-| 平台 / 模块 | 主要职责 |
+| 模块 | 工作内容 |
 |---|---|
-| **RA8P1 / Cortex-M85** | 采集、预处理、服务调度、推理后处理与任务接口 |
-| **Ethos-U55** | 经 RUHMI 工具链部署的端侧模型推理 |
-| **OV5640** | 小麦图像采集 |
-| **ST7796S** | 实时画面与检测结果显示 |
-| **DHT11 / 光照传感器** | 温湿度与相对光照采集 |
-| **ESP8266** | Wi-Fi 接入及局域网 HTTP / WebSocket 数据交互 |
-| **TJC 串口屏 / SD** | 人机交互资料、参数输入与数据记录 |
-
-
-## 2. 系统架构与核心代码 | Architecture & Code
+| RA8P1 / Cortex-M85 | 图像采集、预处理、外设调度、检测后处理 |
+| Ethos-U55 | 执行经 RUHMI 工具链部署的神经网络算子 |
+| OV5640 | 采集麦穗图像 |
+| ST7796S | 显示相机画面与检测结果 |
+| DHT11 / 光照传感器 | 采集温湿度与相对光照 |
+| ESP8266 | Wi-Fi 接入、局域网 HTTP / WebSocket 交互 |
+| SD 卡 | 数据记录与导出 |
+| TJC 串口屏 | 参数输入与人机交互工程 |
 
 ```text
 OV5640 → RA8P1 / Cortex-M85
               ├─ 图像采集、分块与预处理
               ├─ Ethos-U55：YOLOX 推理
               ├─ 坐标恢复、全局 NMS 与计数
-              ├─ ST7796S：画面和结果显示
+              ├─ ST7796S：图像与结果显示
               ├─ DHT11 / ADC：环境采集
-              ├─ SD：记录与导出
-              └─ ESP8266 → HTTP / WebSocket → 局域网网页
-
-HMI、M33 底盘与滑轨：工程资源与集成状态分别记录
+              ├─ SD：数据记录
+              └─ ESP8266：局域网网页交互
 ```
 
-![系统组成方案](./images/system_architecture.png)
+![答辩材料中的系统组成方案](./images/system_architecture.png)
 
-**系统组成方案。** 
+**版本说明：** 本页代码参数对应 2026-08-18 的 `camera` 工程快照，采用 `224×224` 分块推理；技术报告与 `report_core` 附录采用 `320×320` 方案。整机与底盘结构照片来自答辩 PPT。双核底盘、滑轨及整田任务属于整机集成方案，与视觉主工程分别说明。
 
-### 核心模块
+## 2. 个人工作
 
-| 模块 | 代码中的主要实现 | 源码 |
-|---|---|---|
-| 产品主工程 | 初始化、外设服务与协作式调度 | [camera](./src/camera/) / [app.c](./src/camera/src/app.c) |
-| 摄像头采集 | OV5640、CEU、帧缓冲管理 | [camera_capture.c](./src/camera/src/camera_capture.c) |
-| 模型推理 | RUHMI / Ethos-U55 后端与模型存储 | [wheat_ai_backend.c](./src/camera/src/wheat_ai_backend.c) |
-| 图像预处理 | 图像输入与分块预处理 | [wheat_preprocess.c](./src/camera/src/wheat_preprocess.c) |
-| 检测后处理 | YOLOX 解码、检测框恢复与筛选 | [wheat_yolox_decode.c](./src/camera/src/wheat_yolox_decode.c) / [wheat_postprocess.c](./src/camera/src/wheat_postprocess.c) |
-| 模型部署工具 | 主机侧模型转换、量化与数值检查 | [wheat_deployment](./src/camera/tools/wheat_deployment/) |
-| 环境采集 | DHT11、光照与环境服务 | [environment_service.c](./src/camera/src/environment_service.c) |
-| 网页与联网 | ESP AT、HTTP / WebSocket、网页资产 | [web_ui_page.inc](./src/camera/src/web_ui_page.inc) |
-| 数据存储 | SD、记录队列与恢复服务 | [storage_service.c](./src/camera/src/storage_service.c) |
-| 串口屏 | HMI 工程、字体和素材 | [hmi](./src/hmi/) |
-| 报告核心代码 | C99 附录程序与板级适配接口 | [report_core](./src/report_core/) |
+本项目由团队合作完成。我主要负责**麦穗检测模型优化与移动底盘搭建**，工作集中在密集小目标处理、分块计数去重、INT8 部署适配及移动采样平台搭建。
 
-**已有测试入口：** [主机测试目录](./src/camera/tests/) · [模型部署测试脚本](./src/camera/tests/run_wheat_host_tests.ps1)。
+### 密集麦穗检测与数据适配
 
-### 视觉模型
+围绕 YOLOX-Tiny 单类别 `wheat_head` 检测，处理麦穗密集、相互遮挡及光照变化带来的漏检与误检。数据方案结合 Global Wheat Head Detection 公开数据与 OV5640 场景样本，按采集场景或批次划分训练和验证数据，并统一边界目标、遮挡目标与穗芒的标注规则。
 
-![YOLOX-Tiny网络结构](./images/yolox_architecture.png)
+![YOLOX-Tiny 网络结构](./images/yolox_architecture.png)
 
-![YOLOX-Tiny检测头](./images/yolox_head.png)
+![YOLOX-Tiny 检测头](./images/yolox_head.png)
 
-**YOLOX-Tiny 网络与检测头结构。** 项目围绕密集小目标采用重叠分块、坐标回映射与全局去重的处理路线。
+### 重叠分块、坐标恢复与全局去重
 
-### 目录结构
+将整幅图像直接缩小会丢失小麦穗细节，因此在局部图块上检测，再回到原图坐标系汇总计数。
 
-```text
-.
-├─ images/                   PPT 展示图片
-├─ src/                      产品源码、模型工具与串口屏工程
-├─ README.md                 项目介绍
-├─ 技术文档.pdf               完整技术报告
-├─ 作品简介.pdf               参赛作品简介
-└─ 项目答辩.pptx              答辩演示文稿
-```
+1. 将 `640×480` 图像划分为 `12` 个 `224×224` 图块，主步长为 `179` 像素，边缘图块调整起点以覆盖完整画面。
+2. 将各块检测框叠加图块起点偏移，恢复到原图坐标。
+3. 汇总候选框并执行全局 NMS，减少重叠区域的重复计数。工程默认置信度阈值为 `0.25`，NMS IoU 阈值为 `0.45`。
 
-## 3. 个人贡献 | My Contributions
+代码：[分块与解码](./src/camera/src/wheat_yolox_decode.c) · [全局后处理](./src/camera/src/wheat_postprocess.c)
 
-本项目由团队合作完成。**本人主要负责麦穗检测模型优化与移动底盘搭建。** 技术重点包括密集小目标的细节保留、分块计数去重、INT8 端侧部署，以及移动平台与视觉采样机构的集成。
+### INT8 量化与端侧部署
 
-以下依据 [技术报告](./技术文档.pdf)第 2.8、4.2、4.3 节，以及 [答辩 PPT](./项目答辩.pptx)第 9、11—13、15、20 页梳理。报告与最终实物存在差异：模型参数注明保存代码的版本，底盘形态以 PPT 中的移动平台为参考。
+对接相机像素格式、模型输入和 Ethos-U55 推理后端。tile224 路径将 RGB565 大端像素解包，按 BGR 顺序组织 INT8 输入，并执行像素值减 `128` 的转换；同步核对张量布局、量化参数和检测框格式。
 
-### 3.1 面向密集麦穗的模型与数据适配
+模型转换过程中检查算子映射、CPU 回退与数据搬运，并用固定输入比较源模型、转换模型及板端的输出，检查张量数值、检测框、置信度和计数是否发生偏差。
 
-围绕 **YOLOX-Tiny 单类别麦穗检测**开展优化，将目标限定为 `wheat_head`，重点处理小目标密集、相邻麦穗遮挡，以及光照和生育状态变化造成的漏检与误检。
+代码：[图像预处理](./src/camera/src/wheat_preprocess.c) · [推理后端](./src/camera/src/wheat_ai_backend.c) · [模型部署工具](./src/camera/tools/wheat_deployment/) · [数值检查脚本](./src/camera/tools/run_yolox_tile224_numeric_gate.py)
 
-- **场景适配：** 报告与 PPT 的数据方案结合 Global Wheat Head Detection 公开数据及 OV5640 场景样本，覆盖不同密度、明暗、成熟状态、遮挡、干扰物和空样本，减小公开数据与实际成像之间的差异。
-- **标注与评估规则：** 以可辨认的麦穗主体为检测对象，统一边界目标、严重遮挡和穗芒的处理方式；按原始场景或采集批次划分数据，避免相邻帧同时进入训练集和验证集。
-- **优化目标：** 联合关注漏检、误检、计数误差与端侧耗时，兼顾检测质量和嵌入式资源约束。
+### 移动底盘与采样机构
 
-#### 模型选型与部署路线对比
+搭建四轮麦克纳姆移动平台，安装竖直支架与横向相机滑轨，将移动载体和视觉采样单元组合。采样方案由底盘承担区域间移动，滑轨负责局部取景，任务顺序为“移动、停稳、滑轨定位、图像采集、推理与记录”。
 
-模型优化不仅涉及网络选择，也包括量化后能否保留有效检测，以及算子能否适配 Ethos-U55。保存材料中包含以下路线的比较与排查记录：
+答辩方案中，Cortex-M33 承担底盘与滑轨控制，编码器和 JY61P 提供运动反馈；Cortex-M85 调度视觉处理与 Ethos-U55 推理。
 
-| 对比项 | YOLOX-Tiny | YOLO-Fastest 1.1 | YOLOv8n |
-|---|---|---|---|
-| 模型路线 | Anchor-free、PAFPN 与解耦检测头 | Anchor-based 的轻量检测路线 | Anchor-free、C2f 与 DFL 回归 |
-| 本项目考察方式 | 从旧 `full224` 候选转向 `tile224/stride179` 重叠分块路线 | 训练交接材料中的轻量备选，未提供本项目同条件实测 | 保存了 `full640`、`full320 QAT` 等候选转换记录 |
-| 主要部署问题 | 旧候选量化后检测大量丢失；需核对分块训练约定、量化及 CPU/NPU 分配 | 缺少本项目麦穗数据上的完整精度与板端验证 | `full640` 单输出量化导致置信度归零；`full320 QAT` 六头候选仍有检测丢失与 CPU Resize 回退 |
-| 保存工程采用情况 | 采用 `224×224` 分块、坐标恢复与全局 NMS，接入 RUHMI / Ethos-U55 | 保留为备选路线 | 上述候选未通过相应部署验收，未作为保存工程的正式模型 |
+[底盘照片](./images/chassis.png) · [滑轨采样单元](./images/slide_rail.png) · [答辩 PPT](./项目答辩.pptx)
 
-**技术取舍：** 以量化后的检测结果和实际算子分配决定路线，不能仅凭训练端 mAP 或模型转换成功选型。重叠分块负责保留小麦穗局部细节，全局 NMS 负责处理分块交叠带来的重复计数，转换一致性检查负责发现量化及部署偏差。
+## 3. 模型选型与部署记录
 
-上述表格是**模型选型与部署适配对比**。各候选的输入尺寸、样本及执行边界不同，目前没有可直接横向排名的同条件 mAP、参数量、FLOPs 与板端耗时表。报告和 PPT 中的场景计数测试也不能替代这类实验。
+### 模型路线
 
-材料依据：[模型选型说明](./src/camera/tools/wheat_deployment/RA8P1_YOLOX_TINY_WHEAT_TRAINING_HANDOFF.md#21-三种模型的核心区别) · [YOLOv8n full640 记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full640_candidate.json) · [YOLOv8n full320 QAT 六头记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full320_qat_six_head_candidate.json)。
-
-### 3.2 重叠分块推理、坐标回映射与全局去重
-
-针对整幅图像直接缩小后麦穗细节丢失的问题，采用**先分块检测、再在原图坐标系合并结果**的处理路线。
-
-1. **保留局部细节：** 保存的 `camera` 工程将 `640×480` 图像划分为 `12` 个 `224×224` 分块，主步长为 `179` 像素；图像边缘调整分块起点，保证画面被完整覆盖。该参数属于保存工程，区别于报告中的 `320×320` 附录方案。
-2. **恢复统一坐标：** 将每个分块解码后的局部检测框叠加分块起点偏移，恢复到整幅图像坐标，统一处理跨块目标。
-3. **抑制重复计数：** 汇总各块候选框，按置信度排序并执行全局 NMS，减少同一麦穗在相邻分块中被重复统计。保存版本的默认置信度阈值为 `0.25`、NMS IoU 阈值为 `0.45`。
-
-这部分技术在局部细节、边界覆盖、重复计算和候选框数量之间做折中，使最终计数来自统一的全局检测结果。
-
-对应代码：[分块与 YOLOX 解码](./src/camera/src/wheat_yolox_decode.c) · [全局 NMS 后处理](./src/camera/src/wheat_postprocess.c)。
-
-### 3.3 INT8 量化与 Ethos-U55 部署适配
-
-模型优化同时考虑训练结果能否稳定转换为 RA8P1 可执行的模型资源，重点处理量化、输入输出约定与算子支持之间的衔接。
-
-- **代表性校准：** 按材料中的方案选取覆盖亮度、颜色、密度和遮挡变化的样本进行 INT8 校准，关注量化前后的检测框与计数变化。
-- **固定输入输出约定：** 明确输入尺寸、颜色通道顺序、NHWC/NCHW 布局、`scale`、`zero point`、输出框格式及后处理阈值，避免转换前后对同一张量产生不同解释。
-- **对接相机输入：** 保存的 tile224 路径将 RGB565 大端像素解包为颜色分量，再整理为 BGR 顺序的 INT8 输入，按当前约定执行像素值减 `128`；这些操作必须与部署模型保持一致。
-- **检查执行后端：** 结合 RUHMI 转换与 Ethos-U55 部署，检查算子映射、CPU 回退及额外数据搬运，避免仅凭 NPU 可调用就认定整个模型都在 NPU 上运行。
-
-对应代码：[图像与张量预处理](./src/camera/src/wheat_preprocess.c) · [推理后端](./src/camera/src/wheat_ai_backend.c) · [模型部署工具](./src/camera/tools/wheat_deployment/)。
-
-### 3.4 CPU 前后处理与 Helium/MVE 优化设计
-
-围绕 NPU 之外的处理开销，关注 RGB565 解包、通道重排、缩放量化、图像质量统计、坐标变换与候选框裁剪。这些环节具有连续访存和重复算术的特点，是报告与 PPT 中 **Helium/MVE 128 位 SIMD** 优化方案的主要对象。
-
-材料中的分工是：Cortex-M85 组织图像和检测后处理，Ethos-U55 执行可映射的神经网络算子。优化设计保留 C 处理路径作为正确性基线，再比较优化前后的张量、检测结果和分阶段耗时。
-
-Helium/MVE 按报告与 PPT 中的优化设计展示，保存源码中的 C 处理路径作为结果核对入口；具体向量化实现与加速效果以对应编译版本和同输入对比记录说明。
-
-### 3.5 模型转换的一致性验证
-
-将输入约定与输出核对纳入模型优化流程，避免出现训练模型能够检测、转换后模型却发生明显偏差的问题。
-
-- 使用固定金样输入，逐阶段核对源模型、量化模型、转换产物与板端输出。
-- 分别检查张量数值、检测框位置、置信度与最终计数；区分数值一致性和检测语义一致性，不将不同执行边界的 CRC 简单视为同一个值。
-- 记录模型版本、转换工具、量化参数、校准数据与 SHA-256，使现场运行模型能够追溯到对应产物。
-- 将检测误差、预处理/推理/后处理耗时和内存开销分别评价，避免用单次 NPU 耗时替代整机处理时间。
-
-对应入口：[主机侧数值验证](./src/camera/tools/run_yolox_tile224_numeric_gate.py) · [已有模型测试](./src/camera/tests/test_wheat_yolox_numeric_gate.py)。
-
-### 3.6 麦轮底盘搭建与视觉采样机构集成
-
-本人负责的底盘搭建以 PPT 展示的**四轮麦克纳姆移动平台、竖直支架与横向相机滑轨**为结构基础，将移动载体与视觉采样单元组合起来。
-
-- **结构与采样分工：** 底盘完成采样区域之间的移动，横向滑轨带动 OV5640 到达局部采样位置，使大范围移动和局部精细取景分别由相应机构承担。
-- **运动与成像配合：** 对接“底盘移动 → 到位停稳 → 滑轨定位 → 图像采集 → 推理与记录 → 下一采样点”的任务顺序，关注移动平台状态对成像稳定性和样本位置对应关系的影响。
-- **反馈接口关系：** PPT 的系统方案使用编码器和 JY61P 提供速度、姿态反馈，由 Cortex-M33 承担底盘与滑轨实时控制并返回到位、停稳状态；视觉侧由 Cortex-M85 调度 Ethos-U55。以此组织搭建平台与视觉采样、运动控制之间的接口关系。
-
-结构对应：[整机实物](./images/robot_overview.png) · [麦轮底盘](./images/chassis.png) · [滑轨采样单元](./images/slide_rail.png)；相关方案见答辩 PPT 第 5、8、9、12 页。
-
-## 4. 项目实验与结果 | Experiments & Results
-
-### 4.1 整机实物 | Robot Prototype
-
-![小麦巡检系统整机](./images/robot_overview.png)
-
-**图 1. 小麦巡检系统整机。** 展示麦轮底盘、立式支架与横向采样单元。
-
-### 4.2 田间场景 | Field Scene
-
-![田间移动平台](./images/field_robot.png)
-
-**图 2. 小麦田间场景。** 
-
-### 4.3 底盘与核心控制板 | Chassis & Controller
-
-| 麦克纳姆轮底盘 | RA8P1 核心控制板 |
+| 路线 | 项目中的处理与取舍 |
 |---|---|
-| ![麦轮底盘](./images/chassis.png) | ![RA8P1核心板](./images/ra8p1_board.png) |
+| YOLOX-Tiny | 采用 `224×224` 重叠分块、坐标恢复与全局 NMS，接入 RUHMI / Ethos-U55 |
+| YOLOv8n | 对 `full640` 和 `full320 QAT` 候选进行转换排查，记录置信度量化损失、检测丢失与 CPU Resize 回退问题 |
+| YOLO-Fastest 1.1 | 作为轻量备选纳入模型选型说明 |
 
-**图 3. 底盘与控制板。**
+[选型说明](./src/camera/tools/wheat_deployment/RA8P1_YOLOX_TINY_WHEAT_TRAINING_HANDOFF.md#21-三种模型的核心区别) · [YOLOv8n full640 记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full640_candidate.json) · [full320 QAT 六头记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full320_qat_six_head_candidate.json)
 
-### 4.4 人机交互 | Human-Machine Interface
+### 转换问题定位
 
-![串口屏](./images/hmi.png)
+下表分别记录各候选在自身参考输入上的转换结果。
 
-**图 4. 串口屏展示。** 页面工程和板端协议联调分别记录，详见 [最终通信协议](./src/hmi/通信协议.md)。
-
-### 4.5 模型转换对比与已有验证 | Model Deployment Evidence
-
-以下为保存记录中的历史测试，未在本次整理中重新运行。每一行只比较该候选自身的固定输入与对应转换产物；两行之间不能据此判断模型优劣。
-
-| 历史候选 / 测试范围 | 转换前参考 | 转换后结果 | 结论 |
+| 候选与输入 | FP32 参考 | INT8 结果 | 处理结论 |
 |---|---|---|---|
-| YOLOv8n `full640` 单输出候选；记录中的同一转换参考输入 | FP32 输出最高置信度约 `0.785` | INT8 输出最高置信度为 `0` | 坐标与置信度共享量化范围，置信度丢失，该候选被淘汰 |
-| YOLOX-Tiny 旧 `full224` 候选；固定 `20` 张输入 | FP32 经 NMS 后合计 `671` 个检测 | INT8 合计 `166` 个检测；相对 FP32 的单图计数 MAE 为 `25.25` | 量化后检测明显丢失，且不满足 tile224 约定，该候选被淘汰 |
+| YOLOv8n `full640`，转换参考输入 | 最高置信度约 `0.785` | 最高置信度为 `0` | 排除该单输出量化方案 |
+| YOLOX-Tiny 旧 `full224`，固定 `20` 张输入 | NMS 后合计 `671` 个检测 | 合计 `166` 个检测，相对 FP32 的单图计数 MAE 为 `25.25` | 排除该候选，后续采用 tile224 路线 |
 
-这里的检测数量和计数 MAE 均以**源模型结果为参考**，不以人工标注为真值，不能解释为数据集召回率或实际麦穗计数精度。
+数据来源：[YOLOv8n 候选记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full640_candidate.json) · [旧 YOLOX full224 记录](./src/camera/tools/wheat_deployment/manifests/yolox_tiny_gwhd_full224_candidate.json)
 
-后续 **tile224** 路线另有两类验证记录：
+### tile224 转换一致性
 
-| 验证范围 | 记录结果 | 能说明的内容 |
+| 检查范围 | 条件 | 记录结果 |
 |---|---|---|
-| 主机侧源 INT8 TFLite 与 RUHMI pre-Vela 子图；两组确定性输入 | 两组输出均逐字节一致，pattern 输入 `6174` 字节中差异数为 `0` | 该输入下的转换边界数值一致性 |
-| 板端 post-Vela 与源模型；`20` 帧、共 `240` 个分块，`conf=0.25`、全局 NMS IoU `0.45` | 按 IoU≥0.50 匹配，recall `98.06%`、precision `96.65%`，计数 MAE `1.0` | 板端与源模型之间的检测语义一致性 |
+| 源 INT8 TFLite 与 RUHMI pre-Vela 子图 | 全 `-128` 与 pattern 两组确定性输入 | 两组输出逐字节一致；pattern 输出 `6174` 字节，差异数 `0` |
+| 板端 post-Vela 与源模型检测结果 | `20` 帧、`240` 个分块；置信度 `0.25`、全局 NMS IoU `0.45`；按 IoU≥`0.50` 匹配 | 匹配召回率 `98.06%`、匹配精确率 `96.65%`、计数 MAE `1.0` |
 
-**指标边界：** 上述 `98.06%` 和 `96.65%` 衡量板端复现源模型结果的程度，不是相对于人工标注的麦穗检测召回率、精确率，也不是优化前后的提升幅度。旧 full224 与后续 tile224 的样本处理及验证边界不同，不计算二者之间的百分比提升。板端数据来自已有验证文档；其中引用的原始 `output/` 报告未随当前仓库发布。
+这些指标以**源模型输出为参考**，衡量部署前后的结果一致性。记录见 [tile224 数值与板端检查文档](./src/camera/docs/yolox-tile224-pc-numeric-gate.md)。
 
-数据来源：[YOLOv8n 候选记录](./src/camera/tools/wheat_deployment/manifests/yolov8n_wheat_full640_candidate.json) · [旧 YOLOX full224 候选记录](./src/camera/tools/wheat_deployment/manifests/yolox_tiny_gwhd_full224_candidate.json) · [tile224 数值与板端验证记录](./src/camera/docs/yolox-tile224-pc-numeric-gate.md)。
+## 4. 实物展示
 
-### 4.6 验证状态 | Verification Status
+### 整机与田间场景
 
-| 内容 | 当前展示材料与边界 |
+![麦穗计数系统整机](./images/robot_overview.png)
+
+答辩 PPT 中的整机照片，展示麦轮底盘、立式支架与横向采样单元。
+
+![答辩材料中的田间场景](./images/field_robot.png)
+
+### 底盘与核心板
+
+| 麦克纳姆轮底盘 | RA8P1 控制板 |
 |---|---|
-| 图像采集与显示 | 产品源码、实物照片、历史交付记录|
-| YOLOX / Ethos-U55 推理 | 部署代码与历史链路记录；可运行与田间精度合格分别判断 |
-| 模型优化效果 | 已补充选型与转换对比；同数据、同硬件下的优化前后精度和耗时对比尚无完整记录 |
-| 环境、局域网与 SD | 源码和历史功能状态表 |
-| 串口屏、底盘与滑轨 | 工程与接口资料；集成状态按对应版本说明 |
+| ![麦轮底盘](./images/chassis.png) | ![RA8P1 核心板](./images/ra8p1_board.png) |
 
-## 5. 环境与运行 | Setup & Usage
+### 人机交互
 
-- [环境与运行指引](./src/README.md#环境与运行)：工程入口、开发环境、HMI 与报告核心代码的适配前提。
-- [版本与验证说明](./src/README.md#版本说明)：实际快照、提交报告和后续协议的关系。
+![串口屏界面](./images/hmi.png)
 
-工程内部目录与业务代码保持原样，开发调试文档和本地历史材料已归档。图片来源见 [图片索引](./images/README.md)。
+[串口屏工程](./src/hmi/) · [通信协议](./src/hmi/通信协议.md) · [图片来源](./images/README.md)
 
-## 6. 第三方依赖与致谢 | Third-Party Software
+## 5. 关键代码与环境
 
-工程涉及 Renesas FSP / CMSIS / RUHMI、Ethos-U、YOLOX、FatFs 和相应厂商组件。
+| 模块 | 入口 |
+|---|---|
+| 主程序与服务调度 | [app.c](./src/camera/src/app.c) |
+| 相机采集与帧缓冲 | [camera_capture.c](./src/camera/src/camera_capture.c) |
+| 模型推理 | [wheat_ai_backend.c](./src/camera/src/wheat_ai_backend.c) |
+| 分块解码与去重 | [wheat_yolox_decode.c](./src/camera/src/wheat_yolox_decode.c) · [wheat_postprocess.c](./src/camera/src/wheat_postprocess.c) |
+| 环境采集 | [environment_service.c](./src/camera/src/environment_service.c) |
+| 局域网页面 | [web_ui_page.inc](./src/camera/src/web_ui_page.inc) |
+| SD 存储 | [storage_service.c](./src/camera/src/storage_service.c) |
+| 主机测试 | [测试目录](./src/camera/tests/) · [模型测试脚本](./src/camera/tests/run_wheat_host_tests.ps1) |
 
----
+工程环境记录为 e² studio `2026-04.2`、FSP `6.5.0`、GNU Arm Embedded `13.2.1`。导入方法、工程版本及测试入口见[源码与工程说明](./src/README.md)。
+
+## 6. 第三方组件
+
+工程使用 Renesas FSP / CMSIS / RUHMI、Ethos-U、YOLOX、FatFs 及相应厂商组件。
